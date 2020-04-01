@@ -22,6 +22,6 @@ app.get('/home', (req, res) => {
 });
 
 // Tell the app to listen on port 8080
-app.listen(3000, () => {
-    console.log('Listening on port 3000');
+app.listen(8080, () => {
+    console.log('Listening on port 8080');
 });

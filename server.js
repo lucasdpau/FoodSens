@@ -6,11 +6,21 @@ var fs = require('fs');
 //The function passed into http.createServer will be executed when someone tries
 //to access the computer at port 8080.
 const server = http.createServer(function (req, res) {
-  fs.readFile('./views/index.html', function(err, data) { 
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    var query_url = req.url;
-    res.write(data);
-    res.end();
+  var query_url = url.parse(req.url, true);
+  // so if the url is localhost:8080/views.index.html, that file will be loaded
+  var filename = "." + query_url.pathname;
+  console.log(filename);
+  fs.readFile(filename, function(err, data) { 
+    if (err) {
+      res.writeHead(404, {'Content-Type': 'text/html'});
+      res.write("404 Not Found");
+      res.end();
+    }
+    else {
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(data);
+      res.end();
+    }
   });
   });
 
