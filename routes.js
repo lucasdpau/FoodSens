@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+var userCtrl = require('./models/users');
 
 // Home page route
 router.get('/', function (req, res) {
@@ -13,6 +14,11 @@ router.get('/hello', function (req, res) {
 // renders home.ejs
 router.get('/home', function (req, res) {
     res.render('home');
+})
+
+router.post('/home', function (req, res) {
+    console.log(req.body.username);
+    res.send("you did a POST");
 })
 
 router.get('/login', function (req, res) {
