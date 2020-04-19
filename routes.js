@@ -17,7 +17,11 @@ router.get('/home', function (req, res) {
 })
 
 router.post('/home', function (req, res) {
-    console.log(req.body.username);
+    var user_name = req.body.username;
+    var password = req.body.password;
+    var email = req.body.email;
+    new_user = userCtrl.create({user_name: user_name, password: password, email: email}, function (err, doc) { console.log(doc);});
+    console.log(new_user);
     res.send("you did a POST");
 })
 
