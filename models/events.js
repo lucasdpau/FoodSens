@@ -7,7 +7,7 @@ var EventSchema= new Schema(
         event_type: {type: String},
         event_datetime: {type: Date},
         event_severity: {type: Number},
-        user: {type: Schema.Types.ObjectId, ref: 'User', required: true},
+        user: {type: Schema.Types.ObjectId, ref: 'Users', required: true},
     }
 );
 

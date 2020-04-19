@@ -1,3 +1,4 @@
 node_modules/
 nodeworkplace.code-workspace
 mongocredentials*
+*.bat

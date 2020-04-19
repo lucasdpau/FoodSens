@@ -6,11 +6,13 @@ const router = require('./routes.js');
 const app = express();
 
 var mongoose = require('mongoose');
-//manually fill this in every time you test, and remove before commits until you can figure out env variables
-var mongoDB = '';
+
+const mongo_atlas_url = process.env.MONGO_ATLAS
+console.log("connecting to:" + mongo_atlas_url);
+var mongoDB = mongo_atlas_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true });
 var db = mongoose.connection;
-db.on('error', console.error.bind,(console, 'MongoDB connection error:'));
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // Configure the app (app.set)
 // ejs is installed by npm. it is a view templating engine. we can only render from ejs and not html files for now.
@@ -20,6 +22,7 @@ app.set('views', path.join(__dirname, 'views'));
 // Mount middleware (app.use)
 // mounts the router defined in routes.js
 app.use('/', router);
+
 // Tell the app to listen on port 8080
 app.listen(8080, () => {
     console.log('Listening on port 8080');
