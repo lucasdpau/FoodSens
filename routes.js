@@ -1,10 +1,15 @@
 const express = require('express');
 const router = express.Router();
+var mongoose = require('mongoose');
 var userCtrl = require('./models/users');
 
 // Home page route
 router.get('/', function (req, res) {
-    res.render('index');
+    var users = userCtrl.find(function (err, userlist) {
+        if (err) return console.error(err);
+        console.log(userlist);
+    });
+    res.render('index', {users});
 })
 
 // misc 'easter egg' route, keep it here to demonstrate res.send
