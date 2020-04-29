@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<% include ../partials/head %>
+	<%- include("./partials/head.ejs"); %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
 </head>
 <body>
     <main>
-	<div>
-		<a href="./register">Register Here!</a>
-	</div>
-        <% users %>
-	<div>
-		<%= tagline %>
-	</div>
-	<div>
-		<% test_ejs.forEach(function(testejs) { %>
-			<div><%= test_ejs.name %> BLAH <%= test_ejs.age %></div>
-		<% }); %>
-	</div>
+        <div>
+            <a href="/about">About</a>
+        </div>
+        <div>
+            <a href="/register">Register Here!</a>
+        </div>
+        <div>
+            <a href="/login">Login Here!</a>
+        </div>
+            <% users %>
+        <div>
+            <%= tagline %>
+        </div>
+        <div>
+            <% test_ejs.forEach(function(testejs) { %>
+                <div><%= testejs.name %> BLAH <%= testejs.age %></div>
+            <% }); %>
+        </div>
     </main>
 </body>
 </html>
