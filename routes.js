@@ -9,7 +9,19 @@ router.get('/', function (req, res) {
         if (err) return console.error(err);
         console.log(userlist);
     });
-    res.render('index', {users});
+	var test_ejs = [ 
+	{ name: 'poops', age: '13'},
+	{ name: 'ass', age: '50' },
+	{ name: 'Jumanji', age: '12' },
+	];
+	
+	var tagline = "Let's test this!";
+
+    res.render('index', { 
+	users: users, 
+	test_ejs: test_ejs, 
+	tagline: tagline,
+	});
 })
 
 // misc 'easter egg' route, keep it here to demonstrate res.send

@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<% include ../partials/head %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Index</title>
 </head>
 <body>
-    Welcome to the node practice place!
-    <div>
+    <main>
         <% users %>
-    </div>
+	<div>
+		<%= tagline %>
+	</div>
+	<div>
+		<% test_ejs.forEach(function(testejs) { %>
+			<div><%= test_ejs.name %> BLAH <%= test_ejs.age %></div>
+		<% }); %>
+	</div>
+    </main>
 </body>
 </html>
