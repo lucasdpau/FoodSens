@@ -43,10 +43,6 @@ router.post('/home', function (req, res) {
     res.send("you did a POST");
 })
 
-router.get('/main', function (req, res) {
-    res.render('main');
-})
-
 
 router.get('/register', function (req, res) {
     res.render('register');
@@ -62,6 +58,12 @@ router.post('/register', function (req, res) {
     new_user = userCtrl.create({user_name: user_name, password: password, email: email}, function (err, doc) { console.log(doc);});
     console.log(new_user);
     res.redirect('/');
+})
+
+router.get('/entry/:entryId', function (req, res) {
+	// req.params will show value of entryId
+	var entry_id = req.params[entryID];
+	res.send(req.params)
 })
 
 router.get('/about', function (req, res) {
