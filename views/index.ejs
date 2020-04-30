@@ -23,7 +23,9 @@
                 <input type="submit">
             </form>
         </div>
-            <% users %>
+            <% userlist.forEach(function(user) { %>
+                <p><%= user %></p>
+            <% }); %>
         <div>
             <%= tagline %>
         </div>

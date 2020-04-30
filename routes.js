@@ -5,23 +5,22 @@ var userCtrl = require('./models/users');
 
 // Home page route
 router.get('/', function (req, res) {
+    var test_ejs = [ 
+        { name: 'poops', age: '13'},
+        { name: 'ass', age: '50' },
+        { name: 'Jumanji', age: '12' },
+        ];
+        
+    var tagline = "Let's test this!";
+
     var users = userCtrl.find(function (err, userlist) {
         if (err) return console.error(err);
-        console.log(userlist);
+        res.render('index', { 
+        userlist: userlist, 
+        test_ejs: test_ejs, 
+        tagline: tagline,
+        });
     });
-	var test_ejs = [ 
-	{ name: 'poops', age: '13'},
-	{ name: 'ass', age: '50' },
-	{ name: 'Jumanji', age: '12' },
-	];
-	
-	var tagline = "Let's test this!";
-
-    res.render('index', { 
-	users: users, 
-	test_ejs: test_ejs, 
-	tagline: tagline,
-	});
 })
 
 router.post('/', function (req, res) {
