@@ -15,7 +15,13 @@
             <a href="/register">Register Here!</a>
         </div>
         <div>
-            <a href="/login">Login Here!</a>
+            <form method="POST" action="/">
+                <input type="text" name="username" id="username">
+                <label for="username">Username</label>
+                <input type="password" name="password" id="password">
+                <label for="password">Password</label>
+                <input type="submit">
+            </form>
         </div>
             <% users %>
         <div>
