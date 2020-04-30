@@ -8,11 +8,18 @@
 <body>
     Welcome to the node practice place!
     <div>
-        <form>
-            <input type="text" name="username">
-            <input type="password" name="password">
+        <form method="POST" action="/register">
+            <input type="text" name="username" id="username">
+            <label for="username">Username</label>
+            <input type="password" name="password" id="password">
+            <label for="password">Password</label>
+            <input type="text" name="email" id="email">
+            <label for="email">Email</label>
             <input type="submit">
 	    </form>
+    </div>
+    <div>
+        <a href="/">Home</a>
     </div>
 </body>
 </html>
