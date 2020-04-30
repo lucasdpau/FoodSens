@@ -9,6 +9,27 @@
 <body>
     <main>
         Welcome to new entry!
+	<div>
+		<form action="/new_entry" method="POST">
+			<input type="radio" name="event" id="reaction" value="reaction">
+			<label for="event">Event</label>
+			<input type="radio" name="event" id="meal" value="meal">
+			<label for="meal">Food</label>
+			<br>
+			<input type="date" name="date" id="date">
+			<label for="date">Date</label>
+			<br>
+			<input type="text" name="tags" id="tags>
+			<label for="tags">Tags</label>
+			<br>
+			<textarea name="description" id="description" style="resize:none;"></textarea>
+			<label for="description">description</label>
+			<input type="submit">
+		</form>
+	</div>
+	<div>
+		<a href="">Homepage</a>
+	</div>
     </main>
 </body>
 </html>
