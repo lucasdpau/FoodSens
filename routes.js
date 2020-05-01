@@ -67,6 +67,11 @@ router.get('/entry/:entryId', function (req, res) {
 	res.send(req.params)
 })
 
+router.get('/logout', function (req, res) {
+	// TODO logout
+	res.redirect('/');
+})
+
 router.get('/about', function (req, res) {
     res.render('about');
 })
