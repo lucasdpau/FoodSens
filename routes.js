@@ -54,7 +54,9 @@ router.post('/register', function (req, res) {
 // var hashed_pass = something
 
     // automatically updates the database with the new info
-    new_user = userCtrl.create({user_name: user_name, password: password, email: email}, function (err, doc) { console.log(doc);});
+    new_user = userCtrl.create({user_name: user_name, password: password, email: email}, function (err, doc) { 
+        console.log(doc);
+    });
     console.log(new_user);
     res.redirect('/');
 })
