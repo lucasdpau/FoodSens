@@ -13,9 +13,7 @@ router.get('/', function (req, res) {
         { name: 'ass', age: '50' },
         { name: 'Jumanji', age: '12' },
         ];
-        
     var tagline = "Let's test this!";
-
     var users = userCtrl.find(function (err, userlist) {
         if (err) return console.error(err);
         res.render('index', { 
@@ -77,7 +75,7 @@ router.get('/entry/:entryId', function (req, res) {
 })
 
 router.get('/logout', function (req, res) {
-	// TODO logout
+	req.logOut();
 	res.redirect('/');
 })
 
