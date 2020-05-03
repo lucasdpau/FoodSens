@@ -18,6 +18,7 @@
             <form method="POST" action="/">
                 <input type="text" name="username" id="username">
                 <label for="username">Username</label>
+                <br>
                 <input type="password" name="password" id="password">
                 <label for="password">Password</label>
                 <input type="submit">
@@ -33,6 +34,13 @@
             <% test_ejs.forEach(function(testejs) { %>
                 <div><%= testejs.name %> BLAH <%= testejs.age %></div>
             <% }); %>
+        </div>
+        <div>
+            <% if (user) {%>
+                <h1>WELCOME BACK <%= user.username %></h1>
+                <a href="/log-out">LOG OUT</a>
+            <% } else %>
+                <h1>please log in</h1>
         </div>
     </main>
 </body>

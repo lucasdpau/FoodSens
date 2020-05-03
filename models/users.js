@@ -4,10 +4,10 @@ var Schema = mongoose.Schema;
 
 var UsersSchema= new Schema(
     {
-        user_name: {type: String, required: true},
+        username: {type: String, required: true},
         password: {type: String, required: true},
         join_date: {type: Date, default: Date.now},
-        number_of_events: {type: Number},
+        number_of_events: {type: Number, default: 0},
         email: {type: String}        
     }
 );

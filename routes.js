@@ -1,5 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const bcryptjs = require('bcryptjs');
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var userCtrl = require('./models/users');
 
@@ -19,14 +22,18 @@ router.get('/', function (req, res) {
         userlist: userlist, 
         test_ejs: test_ejs, 
         tagline: tagline,
+        user: req.user
         });
     });
 })
 
-router.post('/', function (req, res) {
-    // TODO login here
-    res.redirect('/home');
-})
+router.post('/', 
+            passport.authenticate('local', {
+                successRedirect: "/home",
+                failureRedirect:"/",
+                failureFlash: true
+            })
+            );
 
 // misc 'easter egg' route, keep it here to demonstrate res.send
 router.get('/hello', function (req, res) {
@@ -47,17 +54,19 @@ router.get('/register', function (req, res) {
     res.render('register');
 })
 router.post('/register', function (req, res) {
-    var user_name = req.body.username;
+    var username = req.body.username;
     var password = req.body.password;
     var email = req.body.email;
 //  TODO HASH the password
-// var hashed_pass = something
+    bcryptjs.hash(password, 10, (err, hashedPassword) => {
+        // if err, do something
+        // otherwise, store hashedPassword in DB
+    });
 
     // automatically updates the database with the new info
-    new_user = userCtrl.create({user_name: user_name, password: password, email: email}, function (err, doc) { 
+    new_user = userCtrl.create({username: username, password: password, email: email}, function (err, doc) { 
         console.log(doc);
     });
-    console.log(new_user);
     res.redirect('/');
 })
 

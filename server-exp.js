@@ -2,6 +2,10 @@
 const express = require('express');
 const path = require('path');
 const router = require('./routes.js');
+const session = require("express-session");
+var passport = require('passport')
+  , LocalStrategy = require('passport-local').Strategy;
+var userCtrl = require('./models/users');
 // Create our express app
 const app = express();
 
@@ -21,8 +25,41 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Mount middleware (app.use)
 // mounts the router defined in routes.js
+
+// setup the passport
+passport.use('local',
+    new LocalStrategy((username, password, done) => {
+        userCtrl.findOne({ username: username }, (err, user) => {
+        if (err) { 
+          return done(err);
+        };
+        if (!user) {
+          return done(null, false, { msg: "Incorrect username" });
+        }
+        if (user.password !== password) {
+          return done(null, false, { msg: "Incorrect password" });
+        }
+        return done(null, user);
+      });
+    })
+  );
+passport.serializeUser(function(user, done) {
+done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    userCtrl.findById(id, function(err, user) {
+    done(err, user);
+    });
+});
+
+  
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', router);
 
 // Tell the app to listen on port 8080
