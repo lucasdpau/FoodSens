@@ -86,6 +86,7 @@ router.get('/new_entry', function (req, res) {
     res.render('new_entry');
 })
 router.post('/new_entry', function (req, res) {
+    // add a new event specific to the user. increment event counter by one
     var event_type = req.body.event_type;
     var event_date = req.body.event_date;
     var event_severity = req.body.event_severity;
@@ -97,7 +98,16 @@ router.post('/new_entry', function (req, res) {
                         description: description, 
                         tags: tags,
                         user: req.user._id,
-                        } )
+                        } );
+    userCtrl.findById(req.user._id, function (err, doc) {
+        if (err) {
+            console.error(err);
+        }
+        console.log(doc.number_of_events);
+        doc.number_of_events += 1;
+        console.log(doc.number_of_events);
+        doc.save();
+    });
 
     res.redirect('/home');
 })
