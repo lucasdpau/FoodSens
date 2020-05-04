@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const router = require('./routes.js');
 const session = require("express-session");
+const bcryptjs = require('bcryptjs');
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 var userCtrl = require('./models/users');
@@ -36,9 +37,15 @@ passport.use('local',
         if (!user) {
           return done(null, false, { msg: "Incorrect username" });
         }
-        if (user.password !== password) {
-          return done(null, false, { msg: "Incorrect password" });
-        }
+        bcryptjs.compare(password, user.password, (err, res) => {
+            if (res) {
+              // passwords match! log user in
+              return done(null, user)
+            } else {
+              // passwords do not match!
+              return done(null, false, {msg: "Incorrect password"})
+            }
+          })
         return done(null, user);
       });
     })

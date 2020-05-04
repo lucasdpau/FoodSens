@@ -5,9 +5,10 @@ var Schema = mongoose.Schema;
 var EventSchema= new Schema(
     {
         event_type: {type: String},
-        event_datetime: {type: Date, default: Date.now},
+        event_date: {type: Date, default: Date.now},
         event_severity: {type: Number},
         description: {type: String, default: "No description yet"},
+        tags: {type: Array },
         user: {type: Schema.Types.ObjectId, ref: 'Users', required: true},
     }
 );

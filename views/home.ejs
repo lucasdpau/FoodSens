@@ -8,15 +8,29 @@
 <body>
     <main>
 	<div>
-        	<a href="/about">About</a>
+        <a href="/about">About</a>
 		<a href="/settings">settings!</a>
 		<a href="/logout">Logout!</a>
-	</div>
+    </div>
+    
+    <div>
+        <% if (user) {%>
+            <h1>Hello <%= user.username %></h1>
+        <% } else { %>  
+            <h1>Please log in</h1>
+        <% } %>
+    </div>
         Home Page!
         <div id="calendar">
             Calendar goes here!
         </div>
         <a href="new_entry">New entries here!</a>
+        <div>
+            <% if (user) { %>
+                <% eventlist.forEach(function(event) { %>
+                    <p><%= event %></p>
+                <% });} %>
+        </div>
     </main>
 </body>
 </html>

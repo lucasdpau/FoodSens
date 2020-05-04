@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<% include ../partials/head %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New entry!</title>
@@ -16,10 +15,16 @@
 			<input type="radio" name="event" id="meal" value="meal">
 			<label for="meal">Food</label>
 			<br>
-			<input type="date" name="date" id="date">
+			<input type="text" name="event_type" id="event_type">
+			<label for="event_type">Type of event</label>
+			<br>
+			<input type="date" name="event_date" id="event_date">
 			<label for="date">Date</label>
 			<br>
-			<input type="text" name="tags" id="tags>
+			<input type="range" name="event_severity" id="event_severity" min="0" max="10">
+			<label for="event_severity">Severity</label>
+			<br>
+			<input type="text" name="tags" id="tags">
 			<label for="tags">Tags</label>
 			<br>
 			<textarea name="description" id="description" style="resize:none;"></textarea>
@@ -28,7 +33,7 @@
 		</form>
 	</div>
 	<div>
-		<a href="">Homepage</a>
+		<a href="/home">Homepage</a>
 	</div>
     </main>
 </body>

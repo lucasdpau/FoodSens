@@ -5,6 +5,7 @@ var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 var userCtrl = require('./models/users');
+var eventCtrl = require('./models/events');
 
 // Home page route
 router.get('/', function (req, res) {
@@ -14,7 +15,7 @@ router.get('/', function (req, res) {
         { name: 'Jumanji', age: '12' },
         ];
     var tagline = "Let's test this!";
-    var users = userCtrl.find(function (err, userlist) {
+    userCtrl.find(function (err, userlist) {
         if (err) return console.error(err);
         res.render('index', { 
         userlist: userlist, 
@@ -40,10 +41,21 @@ router.get('/hello', function (req, res) {
 
 // renders home.ejs
 router.get('/home', function (req, res) {
-    res.render('home');
+    if (req.user) {
+        console.log('logged in user _id is' + req.user._id)
+        eventCtrl.find( {'user': req.user._id }, function (err, eventlist) {
+            if (err) {
+                return console.error(err);
+            }
+            res.render('home', { user:req.user, eventlist: eventlist});
+        })
+    }
+    else {
+        console.log('no user logged in.')
+        res.render('home', { user: null });
+    }
 })
 router.post('/home', function (req, res) {
-
     res.send("you did a POST");
 })
 
@@ -57,15 +69,37 @@ router.post('/register', function (req, res) {
     var email = req.body.email;
 //  TODO HASH the password
     bcryptjs.hash(password, 10, (err, hashedPassword) => {
-        // if err, do something
-        // otherwise, store hashedPassword in DB
+        if (err) {
+            return console.error(err);
+        }
+        userCtrl.create({username: username, password: hashedPassword, email: email}, function (err, doc) { 
+            console.log(doc);
+        });
     });
 
     // automatically updates the database with the new info
-    new_user = userCtrl.create({username: username, password: password, email: email}, function (err, doc) { 
-        console.log(doc);
-    });
     res.redirect('/');
+})
+
+router.get('/new_entry', function (req, res) {
+    console.log('logged in user _id is' + req.user._id)
+    res.render('new_entry');
+})
+router.post('/new_entry', function (req, res) {
+    var event_type = req.body.event_type;
+    var event_date = req.body.event_date;
+    var event_severity = req.body.event_severity;
+    var description = req.body.description;
+    var tags = req.body.tags.split(',')
+    eventCtrl.create( { event_type: event_type, 
+                        event_date: event_date, 
+                        event_severity: event_severity, 
+                        description: description, 
+                        tags: tags,
+                        user: req.user._id,
+                        } )
+
+    res.redirect('/home');
 })
 
 router.get('/entry/:entryId', function (req, res) {
@@ -77,6 +111,10 @@ router.get('/entry/:entryId', function (req, res) {
 router.get('/logout', function (req, res) {
 	req.logOut();
 	res.redirect('/');
+})
+
+router.get('/settings', function (req, res) {
+    res.send('Hi');
 })
 
 router.get('/about', function (req, res) {
