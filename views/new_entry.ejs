@@ -9,6 +9,7 @@
     <main>
         Welcome to new entry!
 	<div>
+		<h2>Reaction!</h2>
 		<form action="/new_entry" method="POST">
 			<input type="radio" name="event" id="reaction" value="reaction">
 			<label for="event">Event</label>
@@ -23,6 +24,23 @@
 			<br>
 			<input type="range" name="event_severity" id="event_severity" min="0" max="10">
 			<label for="event_severity">Severity</label>
+			<br>
+			<input type="text" name="tags" id="tags">
+			<label for="tags">Tags</label>
+			<br>
+			<textarea name="description" id="description" style="resize:none;"></textarea>
+			<label for="description">description</label>
+			<input type="submit">
+		</form>
+	</div>
+	<div>
+		<h2>Food!</h2>
+		<form action="/new_food" method="POST">
+			<input type="text" name="food" id="food">
+			<label for="food">Food</label>
+			<br>
+			<input type="date" name="date" id="date">
+			<label for="date">Date</label>
 			<br>
 			<input type="text" name="tags" id="tags">
 			<label for="tags">Tags</label>

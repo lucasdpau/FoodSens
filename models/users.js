@@ -8,6 +8,7 @@ var UsersSchema= new Schema(
         password: {type: String, required: true},
         join_date: {type: Date, default: Date.now},
         number_of_events: {type: Number, default: 0},
+        meals_eaten: {type: Number, default: 0},
         email: {type: String}        
     }
 );

@@ -12,7 +12,7 @@
 		<a href="/settings">settings!</a>
 		<a href="/logout">Logout!</a>
     </div>
-    
+    <img src="express-icon.svg" style="height: 100px;">
     <div>
         <% if (user) {%>
             <h1>Hello <%= user.username %></h1>
@@ -25,12 +25,27 @@
             Calendar goes here!
         </div>
         <a href="new_entry">New entries here!</a>
+        <% if (user) { %>
         <div>
-            <% if (user) { %>
-                <% eventlist.forEach(function(event) { %>
-                    <p><%= event %></p>
-                <% });} %>
+            <h2>Your Reactions!</h2>
+            <% eventlist.forEach(function(event) { %>
+                <h4><%= event.event_type %></h4>
+                <p><%= event.event_date %></p>
+                <p><%= event.event_sensitivity %></p>
+                <p><%= event.description %></p>
+                <p><%= event.tags %></p>
+        <% }); %>
         </div>
+        <div>
+            <h2>Your foodies!</h2>
+            <% foodlist.forEach(function(food) { %>
+                <h4><%= food.food_name %></h4>
+                <p><%= food.datetime_eaten %></p>
+                <p><%= food.description %></p>
+                <p><%= food.tags %></p>
+            <% }); %>
+        </div>
+    <% } %>
     </main>
 </body>
 </html>

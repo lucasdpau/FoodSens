@@ -6,6 +6,7 @@ var passport = require('passport')
 var mongoose = require('mongoose');
 var userCtrl = require('./models/users');
 var eventCtrl = require('./models/events');
+var foodCtrl = require('./models/food');
 
 // Home page route
 router.get('/', function (req, res) {
@@ -47,7 +48,12 @@ router.get('/home', function (req, res) {
             if (err) {
                 return console.error(err);
             }
-            res.render('home', { user:req.user, eventlist: eventlist});
+            foodCtrl.find( {'user': req.user._id }, function (err, foodlist) {
+                if (err) {
+                    return console.error(err);
+                }
+                res.render('home', { user:req.user, eventlist: eventlist, foodlist: foodlist});
+            })
         })
     }
     else {
@@ -108,7 +114,31 @@ router.post('/new_entry', function (req, res) {
         console.log(doc.number_of_events);
         doc.save();
     });
+    res.redirect('/home');
+})
 
+router.post("/new_food", function (req, res) {
+    // new food entries
+    var food = req.body.food;
+    var food_date = req.body.date;
+    var description = req.body.description;
+    var tags = req.body.tags.split(',');
+    foodCtrl.create( {
+        food_name: food,
+        datetime_eaten: food_date,
+        description: description,
+        tags: tags,
+        user: req.user._id,
+    });
+    userCtrl.findById(req.user._id, function (err, doc) {
+        if (err) {
+            console.error(err);
+        }
+        console.log(doc.meals_eaten);
+        doc.number_of_events += 1;
+        console.log(doc.meals_eaten);
+        doc.save();
+    });
     res.redirect('/home');
 })
 
