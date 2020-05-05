@@ -42,6 +42,10 @@ router.get('/hello', function (req, res) {
 
 // renders home.ejs
 router.get('/home', function (req, res) {
+    currentDate = new Date;
+    currentYear = currentDate.getFullYear();
+    currentMonth = currentDate.getMonth();
+    currentTime = Date.now();
     if (req.user) {
         console.log('logged in user _id is' + req.user._id)
         eventCtrl.find( {'user': req.user._id }, function (err, eventlist) {
@@ -52,13 +56,21 @@ router.get('/home', function (req, res) {
                 if (err) {
                     return console.error(err);
                 }
-                res.render('home', { user:req.user, eventlist: eventlist, foodlist: foodlist});
+                console.log(currentTime);
+                res.render('home', { 
+                    user:req.user, 
+                    eventlist: eventlist, 
+                    foodlist: foodlist, 
+                    currentTime: currentTime,
+                    currentYear: currentYear,
+                    currentMonth: currentMonth
+                });
             })
         })
     }
     else {
         console.log('no user logged in.')
-        res.render('home', { user: null });
+        res.render('home', { user: null, currentTime: currentTime });
     }
 })
 router.post('/home', function (req, res) {
@@ -160,5 +172,17 @@ router.get('/settings', function (req, res) {
 router.get('/about', function (req, res) {
     res.render('about');
 })
+
+
+router.get('/ajax/', function (req, res) {
+    if (req.user) {
+        var userId = req.user._id;
+        res.json();
+    }
+    else {
+        res.send('error: please login');
+    }
+})
+
 
 module.exports = router;
