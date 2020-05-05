@@ -156,7 +156,7 @@ router.post("/new_food", function (req, res) {
 
 router.get('/entry/:entryId', function (req, res) {
 	// req.params will show value of entryId
-	var entry_id = req.params[entryID];
+	var entry_id = req.params[entryId];
 	res.send(req.params)
 })
 
@@ -174,10 +174,19 @@ router.get('/about', function (req, res) {
 })
 
 
-router.get('/ajax/', function (req, res) {
+router.get('/ajax/:entryId', function (req, res) {
+	var entryId = req.params[entryId];
     if (req.user) {
         var userId = req.user._id;
-        res.json();
+	eventCtrl.findById(entryId, function (err, doc) {
+        if (err) {
+            console.error(err);
+        }
+	if (doc.user == userId) {
+        	res.json(doc);	
+	}
+	});
+	res.send('error: wrong user');
     }
     else {
         res.send('error: please login');
