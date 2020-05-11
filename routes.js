@@ -156,7 +156,7 @@ router.post("/new_food", function (req, res) {
 
 router.get('/entry/:entryId', function (req, res) {
 	// req.params will show value of entryId
-	var entry_id = req.params[entryId];
+	var entryId = req.params[entryId];
 	res.send(req.params)
 })
 
@@ -175,18 +175,22 @@ router.get('/about', function (req, res) {
 
 
 router.get('/ajax/:entryId', function (req, res) {
-	var entryId = req.params[entryId];
+    var entryId = req.params.entryId;
+    // need to convert the string into an object id for mongoose
+    var objEntryId = mongoose.Types.ObjectId(entryId);
     if (req.user) {
         var userId = req.user._id;
-	eventCtrl.findById(entryId, function (err, doc) {
-        if (err) {
-            console.error(err);
-        }
-	if (doc.user == userId) {
-        	res.json(doc);	
-	}
-	});
-	res.send('error: wrong user');
+	    eventCtrl.findById(objEntryId, function (err, doc) {
+            if (err) {
+                console.error(err);
+            }
+            if (String(doc.user) == String(userId)) {
+                res.send(doc);	
+            }
+            else {
+                res.send('error: wrong user');
+            }
+	    });
     }
     else {
         res.send('error: please login');
