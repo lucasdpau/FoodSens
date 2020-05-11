@@ -174,13 +174,35 @@ router.get('/about', function (req, res) {
 })
 
 
-router.get('/ajax/:entryId', function (req, res) {
+router.get('/ajax/entry/:entryId', function (req, res) {
     var entryId = req.params.entryId;
     // need to convert the string into an object id for mongoose
     var objEntryId = mongoose.Types.ObjectId(entryId);
     if (req.user) {
         var userId = req.user._id;
 	    eventCtrl.findById(objEntryId, function (err, doc) {
+            if (err) {
+                console.error(err);
+            }
+            if (String(doc.user) == String(userId)) {
+                res.send(doc);	
+            }
+            else {
+                res.send('error: wrong user');
+            }
+	    });
+    }
+    else {
+        res.send('error: please login');
+    }
+})
+router.get('/ajax/food/:foodId', function (req, res) {
+    var foodId = req.params.foodId;
+    // need to convert the string into an object id for mongoose
+    var objfoodId = mongoose.Types.ObjectId(foodId);
+    if (req.user) {
+        var userId = req.user._id;
+	    foodCtrl.findById(objfoodId, function (err, doc) {
             if (err) {
                 console.error(err);
             }
