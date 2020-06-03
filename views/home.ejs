@@ -30,12 +30,17 @@
 	            Calendar goes here!
         	</div>
 	</div>
+	<div id="calendarModal" class="modal">
+		<div id="calendarModalContent" class="modal_content">
+			Hello! We can enter stuff in here!
+		</div>
+	</div>
         <div>
-            <%= currentTime %>
+            <%= currentTime %> Current Time!
             <br>
-            <%= currentYear%>
+            <%= currentYear%> Current Year!
             <br>
-            <%= currentMonth %>
+            <%= currentMonth %> Current Month!
         </div>
         <a href="new_entry">New entries here!</a>
         <% if (user) { %>

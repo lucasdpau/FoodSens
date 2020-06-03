@@ -9,9 +9,19 @@ document.addEventListener('DOMContentLoaded', function() {
     plugins: [ dayGridPlugin, interactionPlugin ],
 
     dateClick: function(info) {
-      alert('Clicked on: ' + info.dateStr);
+      var modalBackground = document.getElementById("calendarModal");
+      var modalContent = document.getElementById("calendarModalContent");
+      modalBackground.style.display ="block";
+      modalContent.innerHTML = "You clicked on the date of " + info.dateStr;
     }
   });
 
   calendar.render();
 });
+
+
+window.onclick = function(event) {
+  if (event.target == document.getElementById("calendarModal")) {
+    document.getElementById("calendarModal").style.display = "none";
+  }
+}
