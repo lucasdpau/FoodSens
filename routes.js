@@ -85,7 +85,6 @@ router.post('/register', function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var email = req.body.email;
-//  TODO HASH the password
     bcryptjs.hash(password, 10, (err, hashedPassword) => {
         if (err) {
             return console.error(err);
@@ -154,11 +153,6 @@ router.post("/new_food", function (req, res) {
     res.redirect('/home');
 })
 
-router.get('/entry/:entryId', function (req, res) {
-	// req.params will show value of entryId
-	var entryId = req.params[entryId];
-	res.send(req.params)
-})
 
 router.get('/logout', function (req, res) {
 	req.logOut();
@@ -173,6 +167,13 @@ router.get('/about', function (req, res) {
     res.render('about');
 })
 
+
+
+router.get('/entry/:entryId', function (req, res) {
+	// req.params will show value of entryId
+	var entryId = req.params[entryId];
+	res.send(req.params)
+})
 
 router.get('/ajax/entry/:entryId', function (req, res) {
     var entryId = req.params.entryId;
