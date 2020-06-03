@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/core/main.css">
     <link rel="stylesheet" type="text/css" href="css/daygrid/main.css">
+    <link rel="stylesheet" href="css/styles.css">
     <title>First Express Home</title>
     <script src="main.js"></script>
 </head>
 <body>
-    <main>
+    <main class="centered">
 	<div>
         <a href="/about">About</a>
 		<a href="/settings">settings!</a>
 		<a href="/logout">Logout!</a>
-    </div>
+        </div>
     <img src="images/express-icon.svg" style="height: 100px;">
     <div>
         <% if (user) {%>
@@ -24,9 +25,11 @@
         <% } %>
     </div>
         Home Page!
-        <div id="calendar">
-            Calendar goes here!
-        </div>
+	<div class="calendar_wrapper">
+        	<div id="calendar">
+	            Calendar goes here!
+        	</div>
+	</div>
         <div>
             <%= currentTime %>
             <br>

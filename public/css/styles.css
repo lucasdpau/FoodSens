@@ -1,0 +1,12 @@
+.centered {
+	text-align: center;
+}
+
+.calendar_wrapper {
+	max-width: 600px ;
+	margin: 0 auto;
+}
+
+#calendar {
+	max-width: 100% ;
+}
