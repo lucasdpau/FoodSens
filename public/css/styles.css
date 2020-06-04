@@ -2,6 +2,10 @@
 	text-align: center;
 }
 
+.hidden {
+	display: none;
+}
+
 .calendar_wrapper {
 	max-width: 600px ;
 	margin: 0 auto;

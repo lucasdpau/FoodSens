@@ -7,7 +7,6 @@ var modalBackground = document.getElementById("calendarModal");
 var modalText = document.getElementById("calendarModalText");
 var modalNewEntry = document.getElementById("modalNewEntry");
 var modalNewFood = document.getElementById("modalNewFood");
-const eventJSON = JSON.parse(document.getElementById("homeEventJSONStr").innerHTML);
 
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
@@ -15,7 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
   var calendar = new Calendar(calendarEl, {
     plugins: [ dayGridPlugin, interactionPlugin ],
 
-    events: [],
+    events: '/getevents',
+
+    eventClick: function(info) {
+      console.log(info.event.title);
+      console.log(info.view.title);
+    },
 
     dateClick: function(info) {
     // info is a dateClickInfo object. if we click a calendar day we get a modal popup

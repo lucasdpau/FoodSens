@@ -81,6 +81,43 @@ router.post('/home', function (req, res) {
 })
 
 
+router.get('/getevents', function (req, res) {
+    if (req.user) {
+        eventCtrl.find( {'user': req.user._id }, function (err, eventlist) {
+            if (err) {
+                return console.error(err);
+            }
+            foodCtrl.find( {'user': req.user._id }, function (err, foodlist) {
+                if (err) {
+                    return console.error(err);
+                }
+		eventsJSONStr = JSON.stringify(eventlist);
+		eventsJSON = [];
+		eventlist.forEach(function(item) {
+		// dates in DB are saved as utc, so fullcalendar will adjust is and the event will be on the wrong date
+			var formatted_date = new Date(item.event_date);
+			formatted_date.setDate(formatted_date.getUTCDate());
+			new_event_item = {};
+			new_event_item['allDay'] = "";
+			new_event_item['title'] = item.description;
+			new_event_item['id'] = item._id;
+			new_event_item['end'] = formatted_date;
+			new_event_item['start'] = formatted_date;
+			eventsJSON.push(new_event_item);
+		});
+		res_json = JSON.parse(JSON.stringify(eventsJSON));
+                res.send(res_json);
+            })
+        })
+    }
+    else {
+        console.log('No user logged in. Redirecting to login')
+        res.redirect('/');
+    }
+})
+
+
+
 router.get('/register', function (req, res) {
     res.render('register');
 })
@@ -201,53 +238,8 @@ router.get('/entry/:entryId', function (req, res) {
     }
 })
 
-router.get('/ajax/entry/:entryId', function (req, res) {
-    var entryId = req.params.entryId;
-    // need to convert the string into an object id for mongoose
-    var objEntryId = mongoose.Types.ObjectId(entryId);
-    if (req.user) {
-        var userId = req.user._id;
-	    eventCtrl.findById(objEntryId, function (err, doc) {
-            if (err) {
-                console.error(err);
-            }
-            if (String(doc.user) == String(userId)) {
-                res.send(doc);	
-            }
-            else {
-                res.send('error: wrong user');
-            }
-	    });
-    }
-    else {
-        res.send('error: please login');
-    }
-})
-
 
 router.get('/food/:foodId', function (req, res) {
-    var foodId = req.params.foodId;
-    // need to convert the string into an object id for mongoose
-    var objfoodId = mongoose.Types.ObjectId(foodId);
-    if (req.user) {
-        var userId = req.user._id;
-	    foodCtrl.findById(objfoodId, function (err, doc) {
-            if (err) {
-                console.error(err);
-              }
-            if (String(doc.user) == String(userId)) {
-                res.send(doc);	
-              }
-            else {
-                res.send('error: wrong user');
-              }
-	    });
-    }
-    else {
-        res.send('error: please login');
-    }
-})
-router.get('/ajax/food/:foodId', function (req, res) {
     var foodId = req.params.foodId;
     // need to convert the string into an object id for mongoose
     var objfoodId = mongoose.Types.ObjectId(foodId);
