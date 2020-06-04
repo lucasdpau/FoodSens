@@ -31,8 +31,14 @@
         	</div>
 	</div>
 	<div id="calendarModal" class="modal">
-		<div id="calendarModalContent" class="modal_content">
-			Placeholder content
+		<div class="modal_content">
+			<span  id="calendarModalText">
+			</span>
+			<div>
+       				<a href="/new_entry" id="modalNewEntry">New entries here!</a>
+				<br>
+				<a href="/new_food" id="modalNewFood">New food here!</a>
+			</div>
 		</div>
 	</div>
         <div>
@@ -42,27 +48,19 @@
             <br>
             <%= currentMonth %> Current Month!
         </div>
-        <a href="new_entry">New entries here!</a>
+        <a href="/new_entry">New entries here!</a>
+	<br><a href="/new_food"> New food here!</a>
         <% if (user) { %>
         <div>
             <h2>Your Reactions!</h2>
             <% eventlist.forEach(function(event) { %>
-                <h4><%= event.event_type %></h4>
-                <p><%= event.event_date %></p>
-                <p><%= event.event_sensitivity %></p>
-                <p><%= event.description %></p>
-                <p><%= event.tags %></p>
                 <a href="entry/<%= event._id %>"><%= event._id %></a>
         <% }); %>
         </div>
         <div>
             <h2>Your foodies!</h2>
             <% foodlist.forEach(function(food) { %>
-                <h4><%= food.food_name %></h4>
-                <p><%= food.datetime_eaten %></p>
-                <p><%= food.description %></p>
-                <p><%= food.tags %></p>
-                <p><%= food._id %></p>
+                <a href="food/<%= food._id %>"><%= food._id %></a>
             <% }); %>
         </div>
     <% } %>

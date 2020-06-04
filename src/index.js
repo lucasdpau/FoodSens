@@ -6,7 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var modalBackground = document.getElementById("calendarModal");
 
-  var modalContent = document.getElementById("calendarModalContent");
+  var modalText = document.getElementById("calendarModalText");
+  var modalNewEntry = document.getElementById("modalNewEntry");
+  var modalNewFood = document.getElementById("modalNewFood");
 
   var calendarEl = document.getElementById('calendar');
 
@@ -16,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     dateClick: function(info) {
     // info is a dateClickInfo object. if we click a calendar day we get a modal popup
       modalBackground.style.display ="block";
-      modalContent.innerHTML = "You clicked on the date of " + info.dateStr;
+      modalText.innerHTML = "You clicked on the date of " + info.dateStr;
       console.log("current date:" + info.date + " " + info.date.getFullYear() + " " + info.date.getMonth() + " " + info.date.getDate());
     }
   });

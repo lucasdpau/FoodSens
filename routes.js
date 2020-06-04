@@ -128,6 +128,9 @@ router.post('/new_entry', function (req, res) {
     res.redirect('/home');
 })
 
+router.get("/new_food", function (req, res) {
+    res.render("new_food");
+})
 router.post("/new_food", function (req, res) {
     // new food entries
     var food = req.body.food;
@@ -170,9 +173,26 @@ router.get('/about', function (req, res) {
 
 
 router.get('/entry/:entryId', function (req, res) {
-	// req.params will show value of entryId
-	var entryId = req.params[entryId];
-	res.send(req.params)
+    var entryId = req.params.entryId;
+    // need to convert the string into an object id for mongoose
+    var objEntryId = mongoose.Types.ObjectId(entryId);
+    if (req.user) {
+        var userId = req.user._id;
+	    eventCtrl.findById(objEntryId, function (err, doc) {
+            if (err) {
+                console.error(err);
+            }
+            if (String(doc.user) == String(userId)) {
+                res.send(doc);	
+            }
+            else {
+                res.send('error: wrong user');
+            }
+	    });
+    }
+    else {
+        res.send('error: please login');
+    }
 })
 
 router.get('/ajax/entry/:entryId', function (req, res) {
@@ -197,6 +217,30 @@ router.get('/ajax/entry/:entryId', function (req, res) {
         res.send('error: please login');
     }
 })
+
+
+router.get('/food/:foodId', function (req, res) {
+    var foodId = req.params.foodId;
+    // need to convert the string into an object id for mongoose
+    var objfoodId = mongoose.Types.ObjectId(foodId);
+    if (req.user) {
+        var userId = req.user._id;
+	    foodCtrl.findById(objfoodId, function (err, doc) {
+            if (err) {
+                console.error(err);
+              }
+            if (String(doc.user) == String(userId)) {
+                res.send(doc);	
+              }
+            else {
+                res.send('error: wrong user');
+              }
+	    });
+    }
+    else {
+        res.send('error: please login');
+    }
+})
 router.get('/ajax/food/:foodId', function (req, res) {
     var foodId = req.params.foodId;
     // need to convert the string into an object id for mongoose
@@ -206,13 +250,13 @@ router.get('/ajax/food/:foodId', function (req, res) {
 	    foodCtrl.findById(objfoodId, function (err, doc) {
             if (err) {
                 console.error(err);
-            }
+              }
             if (String(doc.user) == String(userId)) {
                 res.send(doc);	
-            }
+              }
             else {
                 res.send('error: wrong user');
-            }
+              }
 	    });
     }
     else {
