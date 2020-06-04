@@ -29,3 +29,7 @@
 #calendar {
 	max-width: 100% ;
 }
+
+#homeEventJSONStr {
+	display: none;
+}

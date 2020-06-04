@@ -11,15 +11,10 @@
 	<div>
 		<h2>Reaction!</h2>
 		<form action="/new_entry" method="POST">
-			<input type="radio" name="event" id="reaction" value="reaction">
-			<label for="event">Event</label>
-			<input type="radio" name="event" id="meal" value="meal">
-			<label for="meal">Food</label>
-			<br>
 			<input type="text" name="event_type" id="event_type">
 			<label for="event_type">Type of event</label>
 			<br>
-			<input type="date" name="event_date" id="event_date">
+			<input type="date" name="event_date" id="date">
 			<label for="date">Date</label>
 			<br>
 			<input type="range" name="event_severity" id="event_severity" min="0" max="10">
@@ -48,6 +43,6 @@ function format(date) {
 
 var today = new Date();
 var dateString = format(today);
-  document.getElementById("event_date").setAttribute("value", dateString);
+  document.getElementById("date").setAttribute("value", dateString);
 </script>
 </html>

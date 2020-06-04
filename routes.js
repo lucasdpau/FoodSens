@@ -42,6 +42,7 @@ router.get('/hello', function (req, res) {
 
 // renders home.ejs
 router.get('/home', function (req, res) {
+// TODO: at first just send the events/food lists of the current month. then send other months only if requested
     currentDate = new Date;
     currentYear = currentDate.getFullYear();
     currentMonth = currentDate.getMonth();
@@ -57,9 +58,11 @@ router.get('/home', function (req, res) {
                     return console.error(err);
                 }
                 console.log(currentTime);
+		eventsJSONStr = JSON.stringify(eventlist);
                 res.render('home', { 
                     user:req.user, 
                     eventlist: eventlist, 
+                    eventsJSONStr: eventsJSONStr,
                     foodlist: foodlist, 
                     currentTime: currentTime,
                     currentYear: currentYear,
@@ -69,8 +72,8 @@ router.get('/home', function (req, res) {
         })
     }
     else {
-        console.log('no user logged in.')
-        res.render('home', { user: null, currentTime: currentTime });
+        console.log('No user logged in. Redirecting to login')
+        res.redirect('/');
     }
 })
 router.post('/home', function (req, res) {
@@ -99,8 +102,9 @@ router.post('/register', function (req, res) {
 })
 
 router.get('/new_entry', function (req, res) {
-    console.log('logged in user _id is' + req.user._id)
-    res.render('new_entry');
+    var default_date = req.query.date;
+    console.log('default date is: ' + default_date);
+    res.render('new_entry', {default_date: default_date, });
 })
 router.post('/new_entry', function (req, res) {
     // add a new event specific to the user. increment event counter by one
@@ -129,7 +133,9 @@ router.post('/new_entry', function (req, res) {
 })
 
 router.get("/new_food", function (req, res) {
-    res.render("new_food");
+    var default_date = req.query.date;
+    console.log('default date is: ' + default_date);
+    res.render("new_food", {default_date: default_date, });
 })
 router.post("/new_food", function (req, res) {
     // new food entries
@@ -263,6 +269,13 @@ router.get('/ajax/food/:foodId', function (req, res) {
         res.send('error: please login');
     }
 })
+
+// pseudocode for analysis
+// function takes params of entryid, req, and how many days to look back
+// get the entry/event id, and get that object from the db
+// get the "how many days to look back" and get all food entries within that range
+// look at the food/tags and add a point to each one
+// 
 
 
 module.exports = router;
