@@ -35,12 +35,12 @@ router.post('/',
             })
             );
 
-// misc 'easter egg' route, keep it here to demonstrate res.send
+// misc 'easter egg' route, to demonstrate res.send
 router.get('/hello', function (req, res) {
     res.send("<h1>Hello World!</h1>");
 })
 
-// renders home.ejs
+
 router.get('/home', function (req, res) {
 // TODO: at first just send the events/food lists of the current month. then send other months only if requested
     currentDate = new Date;
@@ -307,6 +307,31 @@ router.get('/food/:foodId', function (req, res) {
     }
 })
 
+
+router.get('/analysis', function (req, res) {
+    if (req.user) {
+        var userId = req.user._id;
+        userCtrl.findById(req.user._id, function(err, doc) {
+            var daysToLookBack = doc.settings.daysLookingBack;
+            console.log("days to look back1 = " + daysToLookBack );
+            var foodQuery = foodCtrl.find({'user': req.user.id });
+            foodQuery.exec(function (err, foodDoc) {
+                console.log("foodDoc:" + foodDoc);
+                eventCtrl.find({'user': req.user.id }, function(err, eventDoc) {
+                    eventDoc.forEach(function(item) {
+                        entryAnalyze(item, foodDoc, daysToLookBack);
+                    });
+                });
+            });
+            res.send('hi');
+        });
+    }
+
+    else {
+        console.log('not logged in, redirecting to front page');
+        res.redirect('/');
+    }
+})
 // pseudocode for analysis
 // function takes params of entryid, req, and how many days to look back
 // get the entry/event id, and get that object from the db
@@ -314,5 +339,10 @@ router.get('/food/:foodId', function (req, res) {
 // look at the food/tags and add a point to each one
 // 
 
+const entryAnalyze = function (eventObj, foodDoc, daysToLookBack) {
+// to reduce DB calls, we just get the entire foodQuerySet once, and filter with daysToLookBack
+    console.log("entryAnalyze was called");
+
+}
 
 module.exports = router;
