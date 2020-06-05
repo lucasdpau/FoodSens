@@ -314,20 +314,19 @@ router.get('/analysis', function (req, res) {
 
     if (req.user) {
         resultsList = []
-        var userId = req.user._id;
-        var userObj = userCtrl.findById(req.user._id);
-        var userObjPromise = userObj.exec();
-        var eventDoc = eventCtrl.find({'user': req.user.id });
-        var eventDocPromise = eventDoc.exec();
-        Promise.all([userObjPromise, eventDocPromise]).then( function(){
-            console.log(userObjPromise[0]);
-            var daysToLookBack = userObjPromise.settings.daysLookingBack;
+        async function analyze() {
+            var userObj = await userCtrl.findById(req.user._id);
+            var eventDoc = await eventCtrl.find({'user': req.user._id});
+            var foodDoc = await foodCtrl.find({'user': req.user._id});
+            const daysToLookBack = userObj['settings']['daysLookingBack'];
             console.log("days to look back = " + daysToLookBack);
-            eventDoc.forEach(function(item) {
-                resultsList.push(entryAnalyze(item, daysToLookBack, userId));
-            });
-        });
-        res.send(resultsList);
+            eventDoc.forEach(function(doc){
+                resultsList.push(entryAnalyze(doc, foodDoc, daysToLookBack, req.user._id));
+            })
+            console.log(resultsList);
+            res.send(resultsList);
+        }
+        analyze();
     }
 
     else {
@@ -342,19 +341,22 @@ router.get('/analysis', function (req, res) {
 // look at the food/tags and add a point to each one
 // 
 
-const entryAnalyze = function (eventObj, daysToLookBack, userId) {
+const entryAnalyze = function (eventObj, foodDoc, daysToLookBack, userId) {
+    const eventName = eventObj.event_type;
+    var resultsObj = {"event_name": eventName, "food_scores": {}, "date":eventObj.event_date,};
 // to reduce DB calls, we just get the entire foodQuerySet once, and filter with daysToLookBack
-    var earliestDay = new Date;
-  // we add 1 to daystolookback for rounding error
+    var earliestDay = eventObj.event_date;
+    // we add 1 to daystolookback for rounding error
     earliestDay.setDate(earliestDay.getDate() - (daysToLookBack + 1));
-    console.log(earliestDay);
-    var foodQuery2 = foodCtrl.find({'user': userId}).where('datetime_eaten').gte(earliestDay);
-    foodQuery2.exec(function (err, foodDoc){
-        console.log("entryAnalyze was called " + foodDoc);
-        eventName = eventObj.event_type;
-
-        return [eventObj, foodDoc, daysToLookBack];
-    });
+    foodDoc.forEach(function(doc){
+        console.log(doc);
+        if (resultsObj["food_scores"][doc.description]) {
+            resultsObj["food_scores"][doc.description] += 1;
+        } else {
+            resultsObj["food_scores"][doc.description] = 1;
+        }
+    })
+    return resultsObj;
 }
 
 module.exports = router;
