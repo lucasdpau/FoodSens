@@ -309,20 +309,22 @@ router.get('/food/:foodId', function (req, res) {
 
 
 router.get('/analysis', function (req, res) {
+// pseudocode: get userDoc from the db, then eventdoc from the dbm then run analyze function on all the events
+// append the result of the analysis to results list and return that.
+
     if (req.user) {
         resultsList = []
         var userId = req.user._id;
-        userCtrl.findById(req.user._id, function(err, doc) {
-            var daysToLookBack = doc.settings.daysLookingBack;
-            console.log("days to look back = " + daysToLookBack );
-            var foodQuery = foodCtrl.find({'user': req.user._id });
-            foodQuery.exec(function (err, foodDoc) {
-                console.log("foodDoc:" + foodDoc);
-                eventCtrl.find({'user': req.user.id }, function(err, eventDoc) {
-                    eventDoc.forEach(function(item) {
-                        resultsList.push(entryAnalyze(item, foodDoc, daysToLookBack, userId));
-                    });
-                });
+        var userObj = userCtrl.findById(req.user._id);
+        var userObjPromise = userObj.exec();
+        var eventDoc = eventCtrl.find({'user': req.user.id });
+        var eventDocPromise = eventDoc.exec();
+        Promise.all([userObjPromise, eventDocPromise]).then( function(){
+            console.log(userObjPromise[0]);
+            var daysToLookBack = userObjPromise.settings.daysLookingBack;
+            console.log("days to look back = " + daysToLookBack);
+            eventDoc.forEach(function(item) {
+                resultsList.push(entryAnalyze(item, daysToLookBack, userId));
             });
         });
         res.send(resultsList);
@@ -340,7 +342,7 @@ router.get('/analysis', function (req, res) {
 // look at the food/tags and add a point to each one
 // 
 
-const entryAnalyze = function (eventObj, foodDoc, daysToLookBack, userId) {
+const entryAnalyze = function (eventObj, daysToLookBack, userId) {
 // to reduce DB calls, we just get the entire foodQuerySet once, and filter with daysToLookBack
     var earliestDay = new Date;
   // we add 1 to daystolookback for rounding error
