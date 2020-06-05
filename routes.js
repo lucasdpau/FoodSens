@@ -111,7 +111,7 @@ router.get('/getevents', function (req, res) {
         })
     }
     else {
-        console.log('No user logged in. Redirecting to login')
+        console.log('No user logged in. Redirecting to login');
         res.redirect('/');
     }
 })
@@ -169,6 +169,7 @@ router.post('/new_entry', function (req, res) {
     res.redirect('/home');
 })
 
+
 router.get("/new_food", function (req, res) {
     var default_date = req.query.date;
     console.log('default date is: ' + default_date);
@@ -205,18 +206,32 @@ router.get('/logout', function (req, res) {
 	res.redirect('/');
 })
 
+
 router.get('/settings', function (req, res) {
-    res.render('settings');
+    // we need to be logged in to use settings
+    if (req.user) {
+        res.render('settings');
+    }
+    else {
+        console.log('No user logged in. Redirecting to login');
+        res.redirect('/');
+    }
 })
 router.post('/settings', function (req, res) {
-    var dayslookingback = req.body.dayslookingback;
-    res.redirect('/settings');
+    if (req.user) {
+        var dayslookingback = req.body.dayslookingback;
+        res.redirect('/settings');
+    }
+    else {
+        console.log('No user logged in. Redirecting to login');
+        res.redirect('/');    
+    }
 })
+
 
 router.get('/about', function (req, res) {
     res.render('about');
 })
-
 
 
 router.get('/entry/:entryId', function (req, res) {
