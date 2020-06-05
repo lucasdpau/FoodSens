@@ -310,21 +310,22 @@ router.get('/food/:foodId', function (req, res) {
 
 router.get('/analysis', function (req, res) {
     if (req.user) {
+        resultsList = []
         var userId = req.user._id;
         userCtrl.findById(req.user._id, function(err, doc) {
             var daysToLookBack = doc.settings.daysLookingBack;
-            console.log("days to look back1 = " + daysToLookBack );
-            var foodQuery = foodCtrl.find({'user': req.user.id });
+            console.log("days to look back = " + daysToLookBack );
+            var foodQuery = foodCtrl.find({'user': req.user._id });
             foodQuery.exec(function (err, foodDoc) {
                 console.log("foodDoc:" + foodDoc);
                 eventCtrl.find({'user': req.user.id }, function(err, eventDoc) {
                     eventDoc.forEach(function(item) {
-                        entryAnalyze(item, foodDoc, daysToLookBack);
+                        resultsList.push(entryAnalyze(item, foodDoc, daysToLookBack, userId));
                     });
                 });
             });
-            res.send('hi');
         });
+        res.send(resultsList);
     }
 
     else {
@@ -335,14 +336,23 @@ router.get('/analysis', function (req, res) {
 // pseudocode for analysis
 // function takes params of entryid, req, and how many days to look back
 // get the entry/event id, and get that object from the db
-// get the "how many days to look back" and get all food entries within that range
+// get "days to look back" and get all food entries within that range
 // look at the food/tags and add a point to each one
 // 
 
-const entryAnalyze = function (eventObj, foodDoc, daysToLookBack) {
+const entryAnalyze = function (eventObj, foodDoc, daysToLookBack, userId) {
 // to reduce DB calls, we just get the entire foodQuerySet once, and filter with daysToLookBack
-    console.log("entryAnalyze was called");
+    var earliestDay = new Date;
+  // we add 1 to daystolookback for rounding error
+    earliestDay.setDate(earliestDay.getDate() - (daysToLookBack + 1));
+    console.log(earliestDay);
+    var foodQuery2 = foodCtrl.find({'user': userId}).where('datetime_eaten').gte(earliestDay);
+    foodQuery2.exec(function (err, foodDoc){
+        console.log("entryAnalyze was called " + foodDoc);
+        eventName = eventObj.event_type;
 
+        return [eventObj, foodDoc, daysToLookBack];
+    });
 }
 
 module.exports = router;
