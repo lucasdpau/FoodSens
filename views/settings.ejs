@@ -6,6 +6,12 @@
     <title>Settings</title>
 </head>
 <body>
-    Welcome to settings page!
+	<main>
+		<form action="/settings" method="POST">
+			<input type="number" name="dayslookingback" min="0" max="14" id="dayslookingback">
+			<label for="dayslookingback">How many days before an event to check for food eaten</label>
+			<input type="submit">
+		</form>
+	</main>
 </body>
 </html>

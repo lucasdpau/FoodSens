@@ -9,7 +9,7 @@ var UsersSchema= new Schema(
         join_date: {type: Date, default: Date.now},
         number_of_events: {type: Number, default: 0},
         meals_eaten: {type: Number, default: 0},
-        email: {type: String}
+        email: {type: String},
         settings: {
             daysLookingBack: {type: Number, default: 2, }
         }      

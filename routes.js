@@ -206,7 +206,11 @@ router.get('/logout', function (req, res) {
 })
 
 router.get('/settings', function (req, res) {
-    res.send('Hi');
+    res.render('settings');
+})
+router.post('/settings', function (req, res) {
+    var dayslookingback = req.body.dayslookingback;
+    res.redirect('/settings');
 })
 
 router.get('/about', function (req, res) {
