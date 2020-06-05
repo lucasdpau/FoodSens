@@ -87,27 +87,22 @@ router.get('/getevents', function (req, res) {
             if (err) {
                 return console.error(err);
             }
-            foodCtrl.find( {'user': req.user._id }, function (err, foodlist) {
-                if (err) {
-                    return console.error(err);
-                }
-		eventsJSONStr = JSON.stringify(eventlist);
-		eventsJSON = [];
-		eventlist.forEach(function(item) {
-		// dates in DB are saved as utc, so fullcalendar will adjust is and the event will be on the wrong date
-			var formatted_date = new Date(item.event_date);
-			formatted_date.setDate(formatted_date.getUTCDate());
-			new_event_item = {};
-			new_event_item['allDay'] = "";
-			new_event_item['title'] = item.description;
-			new_event_item['id'] = item._id;
-			new_event_item['end'] = formatted_date;
-			new_event_item['start'] = formatted_date;
-			eventsJSON.push(new_event_item);
-		});
-		res_json = JSON.parse(JSON.stringify(eventsJSON));
-                res.send(res_json);
-            })
+	    eventsJSONStr = JSON.stringify(eventlist);
+	    eventsJSON = [];
+	    eventlist.forEach(function(item) {
+	    // dates in DB are saved as utc, so fullcalendar will adjust is and the event will be on the wrong date
+		var formatted_date = new Date(item.event_date);
+		formatted_date.setDate(formatted_date.getUTCDate());
+		new_event_item = {};
+		new_event_item['allDay'] = "";
+		new_event_item['title'] = item.event_type;
+		new_event_item['id'] = item._id;
+		new_event_item['end'] = formatted_date;
+		new_event_item['start'] = formatted_date;
+		eventsJSON.push(new_event_item);
+	    });
+	    res_json = JSON.parse(JSON.stringify(eventsJSON));
+            res.send(res_json);
         })
     }
     else {
@@ -115,6 +110,37 @@ router.get('/getevents', function (req, res) {
         res.redirect('/');
     }
 })
+router.get('/getfoods', function (req, res) {
+    if (req.user) {
+        foodCtrl.find( {'user': req.user._id }, function (err, foodlist) {
+            if (err) {
+                return console.error(err);
+            }
+	    foodJSONStr = JSON.stringify(foodlist);
+	    foodJSON = [];
+	    foodlist.forEach(function(item) {
+	    // dates in DB are saved as utc, so fullcalendar will adjust is and the event will be on the wrong date
+		var formatted_date = new Date(item.datetime_eaten);
+		formatted_date.setDate(formatted_date.getUTCDate());
+		new_food_item = {};
+		new_food_item['allDay'] = "";
+		new_food_item['title'] = item.food_name;
+		new_food_item['id'] = item._id;
+		new_food_item['end'] = formatted_date;
+		new_food_item['start'] = formatted_date;
+		foodJSON.push(new_food_item);
+	    });
+	    res_json = JSON.parse(JSON.stringify(foodJSON));
+            res.send(res_json);
+        })
+    }
+    else {
+        console.log('No user logged in. Redirecting to login');
+        res.redirect('/');
+    }
+
+})
+
 
 
 
