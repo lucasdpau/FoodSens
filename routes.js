@@ -323,7 +323,7 @@ router.get('/analysis', function (req, res) {
             eventDoc.forEach(function(doc){
                 resultsList.push(entryAnalyze(doc, foodDoc, daysToLookBack, req.user._id));
             })
-            console.log(resultsList);
+            console.dir(resultsList,{depth:null});
             res.send(resultsList);
         }
         analyze();
@@ -343,18 +343,17 @@ router.get('/analysis', function (req, res) {
 
 const entryAnalyze = function (eventObj, foodDoc, daysToLookBack, userId) {
     const eventName = eventObj.event_type;
-    var resultsObj = {"event_name": eventName, "food_scores": {}, "date":eventObj.event_date,};
+    var resultsObj = {"event_name": eventName, "event_date": eventObj.event_date, "foods": [],};
 // to reduce DB calls, we just get the entire foodQuerySet once, and filter with daysToLookBack
     var earliestDay = eventObj.event_date;
-    // we add 1 to daystolookback for rounding error
+// we add 1 to daystolookback for rounding error
     earliestDay.setDate(earliestDay.getDate() - (daysToLookBack + 1));
-    foodDoc.forEach(function(doc){
+    foodDoc.forEach(function(doc) {
         console.log(doc);
-        if (resultsObj["food_scores"][doc.description]) {
-            resultsObj["food_scores"][doc.description] += 1;
-        } else {
-            resultsObj["food_scores"][doc.description] = 1;
-        }
+        foodsObj = {}
+        foodsObj["food_name"] = doc['description'];
+        foodsObj["score"] = 1;
+        resultsObj["foods"].push(foodsObj);
     })
     return resultsObj;
 }
