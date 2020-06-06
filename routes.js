@@ -350,6 +350,7 @@ const gatherRelatedFood = function (eventObj, foodDoc, daysToLookBack, userId) {
     var resultsObj = {"event_name": eventName, "event_date": eventObj.event_date, "foods_in_range": [],};
 // to reduce DB calls, we just get the entire foodQuerySet once, and filter with daysToLookBack
     var earliestDay = eventObj.event_date;
+//BUG ERROR THIS affects the actualy object, we have to make a copy and change the copy!
 // we add 1 to daystolookback for rounding error
     earliestDay.setDate(earliestDay.getDate() - (daysToLookBack + 1));
     foodDoc.forEach(function(doc) {
