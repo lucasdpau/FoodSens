@@ -311,9 +311,11 @@ router.get('/food/:foodId', function (req, res) {
 router.get('/analysis', function (req, res) {
 // pseudocode: get userDoc from the db, then eventdoc from the dbm then run analyze function on all the events
 // append the result of the analysis to results list and return that.
+// note this current analysis uses a nested for loop, so On^2!
 
     if (req.user) {
-        resultsList = []
+        resultsList = [];
+        resultsTally = {};
         async function analyze() {
             var userObj = await userCtrl.findById(req.user._id);
             var eventDoc = await eventCtrl.find({'user': req.user._id});
@@ -321,9 +323,12 @@ router.get('/analysis', function (req, res) {
             const daysToLookBack = userObj['settings']['daysLookingBack'];
             console.log("days to look back = " + daysToLookBack);
             eventDoc.forEach(function(doc){
-                resultsList.push(entryAnalyze(doc, foodDoc, daysToLookBack, req.user._id));
+                resultsList.push(gatherRelatedFood(doc, foodDoc, daysToLookBack, req.user._id));
+                resultsTally[doc["event_type"]] = {"food_score": []};
             })
+            console.log('results list: ');
             console.dir(resultsList,{depth:null});
+            console.log(resultsTally);
             res.send(resultsList);
         }
         analyze();
@@ -339,21 +344,27 @@ router.get('/analysis', function (req, res) {
 // get the entry/event id, and get that object from the db
 // get "days to look back" and get all food entries within that range
 // look at the food/tags and add a point to each one
-// 
 
-const entryAnalyze = function (eventObj, foodDoc, daysToLookBack, userId) {
+const gatherRelatedFood = function (eventObj, foodDoc, daysToLookBack, userId) {
     const eventName = eventObj.event_type;
-    var resultsObj = {"event_name": eventName, "event_date": eventObj.event_date, "foods": [],};
+    var resultsObj = {"event_name": eventName, "event_date": eventObj.event_date, "foods_in_range": [],};
 // to reduce DB calls, we just get the entire foodQuerySet once, and filter with daysToLookBack
     var earliestDay = eventObj.event_date;
 // we add 1 to daystolookback for rounding error
     earliestDay.setDate(earliestDay.getDate() - (daysToLookBack + 1));
     foodDoc.forEach(function(doc) {
-        console.log(doc);
-        foodsObj = {}
-        foodsObj["food_name"] = doc['description'];
-        foodsObj["score"] = 1;
-        resultsObj["foods"].push(foodsObj);
+        if (doc["datetime_eaten"] <= eventObj.event_date && doc["datetime_eaten"] >= earliestDay) {
+            console.log(doc);
+            foodsObj = {}
+            foodsObj["food_name"] = doc["food_name"];
+            foodsObj["food_date"] = doc["datetime_eaten"];
+            foodsObj["food_description"] = doc["description"];
+            //foodsObj["tags"] = doc["tags"];
+            //tags formats funny so disacble it for now.
+            resultsObj["foods_in_range"].push(foodsObj);
+        } else {
+          console.log("food doc out of range");
+        }
     })
     return resultsObj;
 }
