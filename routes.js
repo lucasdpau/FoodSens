@@ -82,6 +82,7 @@ router.post('/home', function (req, res) {
 
 
 router.get('/getevents', function (req, res) {
+    // gets all events and parses it into a JSON object that fullcalendar can read
     if (req.user) {
         eventCtrl.find( {'user': req.user._id }, function (err, eventlist) {
             if (err) {
@@ -111,6 +112,7 @@ router.get('/getevents', function (req, res) {
     }
 })
 router.get('/getfoods', function (req, res) {
+    // gets all foods and parses it into a JSON object that fullcalendar can read
     if (req.user) {
         foodCtrl.find( {'user': req.user._id }, function (err, foodlist) {
             if (err) {
@@ -349,10 +351,10 @@ const gatherRelatedFood = function (eventObj, foodDoc, daysToLookBack, userId) {
     const eventName = eventObj.event_type;
     var resultsObj = {"event_name": eventName, "event_date": eventObj.event_date, "foods_in_range": [],};
 // to reduce DB calls, we just get the entire foodQuerySet once, and filter with daysToLookBack
-    var earliestDay = eventObj.event_date;
+    var earliestDay = new Date;
 //BUG ERROR THIS affects the actualy object, we have to make a copy and change the copy!
 // we add 1 to daystolookback for rounding error
-    earliestDay.setDate(earliestDay.getDate() - (daysToLookBack + 1));
+    earliestDay.setDate(eventObj.event_date.getDate() - (daysToLookBack + 1));
     foodDoc.forEach(function(doc) {
         if (doc["datetime_eaten"] <= eventObj.event_date && doc["datetime_eaten"] >= earliestDay) {
             console.log(doc);

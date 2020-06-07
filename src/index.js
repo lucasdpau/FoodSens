@@ -14,7 +14,15 @@ document.addEventListener('DOMContentLoaded', function() {
   var calendar = new Calendar(calendarEl, {
     plugins: [ dayGridPlugin, interactionPlugin ],
 
-    events: '/getevents',
+    eventSources: [
+      {
+        url:'/getevents',
+      },
+      {
+        url: 'getfoods',
+        color: 'green'
+      }
+    ],
 
     eventClick: function(info) {
       console.log(info.event.title);
@@ -27,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
       modalText.innerHTML = "You clicked on the date of " + info.dateStr;
     // add the date of the calendar day you clicked into the link's query string
       modalNewEntry.setAttribute("href", "/new_entry?date=" + info.dateStr);
-      modalNewFood.setAttribute("href", "/new_entry?date=" + info.dateStr);
+      modalNewFood.setAttribute("href", "/new_food?date=" + info.dateStr);
     }
   });
 
