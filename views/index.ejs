@@ -4,47 +4,54 @@
 	<%- include("./partials/head.ejs"); %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
     <title>Index</title>
 </head>
 <body>
-    <main>
-        <div>
-            <a href="/about">About</a>
+    <main class="flex">
+        <div class="login_left">
+
         </div>
-        <div>
-            <a href="/register">Register Here!</a>
+        <div class="login_right">
+            <div>
+                <a href="/about">About</a>
+            </div>
+            <div>
+                <a href="/register">Create Account</a>
+            </div>
+            <% if (!user) {%>
+            <div class="login_wrapper">
+                <h1>Login</h1>
+                <form method="POST" action="/">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="login_input">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="login_input">
+                    <input type="submit" class="login_submit">
+                </form>
+            </div>
+            <% } %>
+                <% userlist.forEach(function(user) { %>
+                    <p><%= user %></p>
+                <% }); %>
+            <div>
+                <%= tagline %>
+            </div>
+            <div>
+                <% test_ejs.forEach(function(testejs) { %>
+                    <div><%= testejs.name %> BLAH <%= testejs.age %></div>
+                <% }); %>
+            </div>
+            <div>
+                <% if (user) {%>
+                    <h1>WELCOME BACK <%= user.username %></h1>
+                    <a href="/logout">LOG OUT</a>
+                    <% } else { %>  
+                        <h1>Please log in</h1>
+                     <% } %>
+            </div>
         </div>
-        <% if (!user) {%>
-        <div>
-            <form method="POST" action="/">
-                <input type="text" name="username" id="username">
-                <label for="username">Username</label>
-                <br>
-                <input type="password" name="password" id="password">
-                <label for="password">Password</label>
-                <input type="submit">
-            </form>
-        </div>
-        <% } %>
-            <% userlist.forEach(function(user) { %>
-                <p><%= user %></p>
-            <% }); %>
-        <div>
-            <%= tagline %>
-        </div>
-        <div>
-            <% test_ejs.forEach(function(testejs) { %>
-                <div><%= testejs.name %> BLAH <%= testejs.age %></div>
-            <% }); %>
-        </div>
-        <div>
-            <% if (user) {%>
-                <h1>WELCOME BACK <%= user.username %></h1>
-                <a href="/logout">LOG OUT</a>
-                <% } else { %>  
-                    <h1>Please log in</h1>
-                 <% } %>
-        </div>
+
     </main>
 </body>
 </html>

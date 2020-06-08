@@ -1,9 +1,49 @@
+* {
+	box-sizing: border-box;
+}
+
+h1 {
+	text-align: center;
+}
+
 .centered {
 	text-align: center;
 }
 
 .hidden {
 	display: none;
+}
+
+.flex {
+	display: flex;
+}
+
+.login_left {
+	width: 40%;
+}
+
+.login_right {
+	width: 600px;
+}
+
+.login_wrapper {
+	padding: 40px;
+}
+
+.login_input {
+	display: block;
+	padding: 10px 20px;
+	width: 100%;
+	font-size: 20px;
+}
+
+.login_submit {
+	display: block;
+	width: 50%;
+	padding: 10px;
+	margin: 0 auto;
+	background-color: white;
+	font-size: 20px;
 }
 
 .calendar_wrapper {
