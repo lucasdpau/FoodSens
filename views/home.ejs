@@ -9,21 +9,31 @@
     <title>First Express Home</title>
 </head>
 <body>
-    <main class="centered">
+    <main class="centered flex">
+    <div class="home_left">
+    	<div class="left_events_wrapper">
+            <h2>Your Reactions!</h2>
+            <% eventlist.forEach(function(event) { %>
+                <a href="entry/<%= event._id %>"><%= event._id %></a><br>
+        <% }); %>
+	</div>
+    	<div class="left_foods_wrapper">
+            <h2>Your foodies!</h2>
+            <% foodlist.forEach(function(food) { %>
+                <a href="food/<%= food._id %>"><%= food._id %></a><br>
+            <% }); %>
+	</div>
+    </div>
+    <div class="home_right">
 	<div>
         <a href="/about">About</a>
 		<a href="/settings">settings!</a>
 		<a href="/logout">Logout!</a>
         </div>
-    <img src="images/express-icon.svg" style="height: 100px;">
-    <div>
-        <% if (user) {%>
-            <h1>Hello <%= user.username %></h1>
-        <% } else { %>  
-            <h1>Please log in</h1>
-        <% } %>
-    </div>
-        Home Page!
+	<img src="images/express-icon.svg" style="height: 100px;">
+	<div>
+            <h1>Hello <%= user.username %></h1>  
+	</div>
 	<div class="calendar_wrapper">
         	<div id="calendar">
         	</div>
@@ -49,23 +59,10 @@
         </div>
         <a href="/new_entry">New entries here!</a>
 	<br><a href="/new_food"> New food here!</a>
-        <% if (user) { %>
-        <div>
-            <h2>Your Reactions!</h2>
-            <% eventlist.forEach(function(event) { %>
-                <a href="entry/<%= event._id %>"><%= event._id %></a>
-        <% }); %>
-        </div>
-        <div>
-            <h2>Your foodies!</h2>
-            <% foodlist.forEach(function(food) { %>
-                <a href="food/<%= food._id %>"><%= food._id %></a>
-            <% }); %>
-        </div>
-    <% } %>
 	<div id="homeEventJSONStr">
 		<%= eventsJSONStr %>
 	</div>
+    </diV>
     </main>
 </body>
 <script src="main.js"></script>

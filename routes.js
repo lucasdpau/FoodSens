@@ -305,31 +305,45 @@ router.get('/analysis', function (req, res) {
     if (req.user) {
         resultsList = [];
         resultsTally = {};
+	foodTotals = {};
         async function analyze() {
             var userObj = await userCtrl.findById(req.user._id);
             var eventDoc = await eventCtrl.find({'user': req.user._id});
             var foodDoc = await foodCtrl.find({'user': req.user._id});
             const daysToLookBack = userObj['settings']['daysLookingBack'];
             console.log("days to look back = " + daysToLookBack);
+            foodDoc.forEach(function(food){
+                if (food['food_name'] in foodTotals) {
+		    foodTotals[food['food_name']] += 1;
+                } else {
+		    foodTotals[food['food_name']] = 1;
+                }
+            });
             eventDoc.forEach(function(doc){
     // we add each event as a key, with the value being a list of foods eaten within the last x days
-                eventRelatedFood = gatherRelatedFood(doc, foodDoc, daysToLookBack);
-                resultsList.push(eventRelatedFood);
+                eventRecentFood = gatherRelatedFood(doc, foodDoc, daysToLookBack);
+                resultsList.push(eventRecentFood);
     // resultsTally will keep track of the points for each event/food
                 if (!(doc["event_type"] in resultsTally)){
-                    resultsTally[doc["event_type"]] = {"food_score": []};
+                    resultsTally[doc["event_type"]] = {"food_count":[], "food_percent":[], 
+                                                       "food_fraction_str": []};
                 }
-                eventRelatedFood["foods_in_range"].forEach(function(foodDoc){
-                    if (foodDoc["food_name"] in resultsTally[doc["event_type"]]["food_score"]) {
-                        resultsTally[doc["event_type"]]["food_score"][foodDoc["food_name"]] += 1;
+                eventRecentFood["foods_in_range"].forEach(function(foodDoc){
+                    if (foodDoc["food_name"] in resultsTally[doc["event_type"]]["food_count"]) {
+                        resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]] += 1;
                     } else {
-                        resultsTally[doc["event_type"]]["food_score"][foodDoc["food_name"]] = 1;
+                        resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]] = 1;
                     }
-                }); 
+    // calculate the percentage of foods that are associated with this event
+                    resultsTally[doc["event_type"]]["food_percent"][foodDoc["food_name"]] = (resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]] * 100 / foodTotals[foodDoc["food_name"]]).toFixed(1);
+                    resultsTally[doc["event_type"]]["food_fraction_str"][foodDoc["food_name"]] = resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]].toString() + "/" + foodTotals[foodDoc["food_name"]].toString();
+                });
+
             })
             console.log('results list: ');
             console.dir(resultsList,{depth:null});
             console.log(resultsTally);
+            console.dir(foodTotals, {depth:null});
             res.send(resultsList);
         }
         analyze();

@@ -30,7 +30,7 @@ label {
 }
 
 .login_right {
-	max_width: 600px;
+	max-width: 600px;
 }
 
 .login_wrapper {
@@ -63,6 +63,14 @@ label {
 
 .login_register a {
 	color: black;
+}
+
+.home_left {
+	width: 40%;
+}
+
+.home_right {
+	max-width: 600px;
 }
 
 .calendar_wrapper {
