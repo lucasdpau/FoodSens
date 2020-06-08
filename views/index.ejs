@@ -16,9 +16,6 @@
             <div>
                 <a href="/about">About</a>
             </div>
-            <div>
-                <a href="/register">Create Account</a>
-            </div>
             <% if (!user) {%>
             <div class="login_wrapper">
                 <h1>Login</h1>
@@ -29,6 +26,9 @@
                     <input type="password" name="password" id="password" class="login_input">
                     <input type="submit" class="login_submit">
                 </form>
+		<div class="centered login_register">
+	                <a href="/register">Create Account</a>
+		</div>
             </div>
             <% } %>
                 <% userlist.forEach(function(user) { %>

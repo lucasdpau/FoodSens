@@ -10,21 +10,26 @@ var foodCtrl = require('./models/food');
 
 // Home page route
 router.get('/', function (req, res) {
-    var test_ejs = [ 
-        { name: 'poops', age: '13'},
-        { name: 'ass', age: '50' },
-        { name: 'Jumanji', age: '12' },
-        ];
-    var tagline = "Let's test this!";
-    userCtrl.find(function (err, userlist) {
-        if (err) return console.error(err);
-        res.render('index', { 
-        userlist: userlist, 
-        test_ejs: test_ejs, 
-        tagline: tagline,
-        user: req.user
+// if you are logged in already, redirect to the homepage
+    if (!req.user){
+        var test_ejs = [ 
+            { name: 'poops', age: '13'},
+            { name: 'ass', age: '50' },
+            { name: 'Jumanji', age: '12' },
+            ];
+        var tagline = "Let's test this!";
+        userCtrl.find(function (err, userlist) {
+            if (err) return console.error(err);
+            res.render('index', { 
+                userlist: userlist, 
+                test_ejs: test_ejs, 
+                tagline: tagline,
+                user: req.user
+                });
         });
-    });
+    } else {
+        res.redirect('/home');
+    }
 })
 
 router.post('/', 
@@ -173,7 +178,7 @@ router.get('/new_entry', function (req, res) {
 })
 router.post('/new_entry', function (req, res) {
     // add a new event specific to the user. increment event counter by one
-    var event_type = req.body.event_type;
+    var event_type = req.body.event_type.toLowerCase();
     var event_date = req.body.event_date;
     var event_severity = req.body.event_severity;
     var description = req.body.description;
@@ -185,15 +190,6 @@ router.post('/new_entry', function (req, res) {
                         tags: tags,
                         user: req.user._id,
                         } );
-    userCtrl.findById(req.user._id, function (err, doc) {
-        if (err) {
-            console.error(err);
-        }
-        console.log(doc.number_of_events);
-        doc.number_of_events += 1;
-        console.log(doc.number_of_events);
-        doc.save();
-    });
     res.redirect('/home');
 })
 
@@ -205,7 +201,7 @@ router.get("/new_food", function (req, res) {
 })
 router.post("/new_food", function (req, res) {
     // new food entries
-    var food = req.body.food;
+    var food = req.body.food.toLowerCase();
     var food_date = req.body.date;
     var description = req.body.description;
     var tags = req.body.tags.split(',');
@@ -215,15 +211,6 @@ router.post("/new_food", function (req, res) {
         description: description,
         tags: tags,
         user: req.user._id,
-    });
-    userCtrl.findById(req.user._id, function (err, doc) {
-        if (err) {
-            console.error(err);
-        }
-        console.log(doc.meals_eaten);
-        doc.number_of_events += 1;
-        console.log(doc.meals_eaten);
-        doc.save();
     });
     res.redirect('/home');
 })
@@ -313,7 +300,7 @@ router.get('/food/:foodId', function (req, res) {
 router.get('/analysis', function (req, res) {
 // pseudocode: get userDoc from the db, then eventdoc from the dbm then run analyze function on all the events
 // append the result of the analysis to results list and return that.
-// note this current analysis uses a nested for loop, so On^2!
+// note this current analysis uses nested for loops, so On^2! make it more efficient later!
 
     if (req.user) {
         resultsList = [];
@@ -325,8 +312,10 @@ router.get('/analysis', function (req, res) {
             const daysToLookBack = userObj['settings']['daysLookingBack'];
             console.log("days to look back = " + daysToLookBack);
             eventDoc.forEach(function(doc){
+    // we add each event as a key, with the value being a list of foods eaten within the last x days
                 eventRelatedFood = gatherRelatedFood(doc, foodDoc, daysToLookBack);
                 resultsList.push(eventRelatedFood);
+    // resultsTally will keep track of the points for each event/food
                 if (!(doc["event_type"] in resultsTally)){
                     resultsTally[doc["event_type"]] = {"food_score": []};
                 }
