@@ -1,1 +1,1 @@
-web: node server-exp.js
+web: node ./bin/www

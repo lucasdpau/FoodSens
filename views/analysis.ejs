@@ -7,13 +7,16 @@
     <title>Analysis</title>
 </head>
 <body>
+    <main>
     <% for (event in resultsTally) {%>
-    <p>It seems that every time you complained of <%= event %>, in the last X days you have also eaten:</p>
+    <p>In the <%= daysToLookBack %> days prior to each time you experienced <%= event %>, you have eaten:</p>
     <ul>
-            <li><%= event %></li>
+        <% for (food in resultsTally[event]["food_count"]) {%>
+            <li><%= resultsTally[event]["food_count"][food]%> meals of <%= food%>. <%= resultsTally[event]["food_percent"][food] %>%</li>
+        <% } %>
     </ul>    
     
-    <%}%>
-<%=resultsTally%>
+    <% } %>
+    </main>
 </body>
 </html>

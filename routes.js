@@ -344,7 +344,7 @@ router.get('/analysis', function (req, res) {
             console.dir(resultsList,{depth:null});
             console.log(resultsTally);
             console.log(foodTotals);
-            res.render('analysis', {resultsTally: resultsTally});
+            res.render('analysis', {resultsTally: resultsTally, daysToLookBack: daysToLookBack, });
         }
         analyze();
     }
