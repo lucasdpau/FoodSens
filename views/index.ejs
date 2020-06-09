@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <title>Index</title>
 </head>
 <body>
@@ -13,10 +14,6 @@
 
         </div>
         <div class="login_right">
-            <div>
-                <a href="/about">About</a>
-            </div>
-            <% if (!user) {%>
             <div class="login_wrapper">
                 <h1>Login</h1>
                 <form method="POST" action="/">
@@ -30,20 +27,10 @@
 	                <a href="/register">Create Account</a>
 		</div>
             </div>
-            <% } %>
-            <% userlist.forEach(function(user) { %>
-                <p><%= user %></p>
-            <% }); %>
-            <div>
-                <%= tagline %>
-            </div>
-            <div>
-                <% test_ejs.forEach(function(testejs) { %>
-                    <div><%= testejs.name %> BLAH <%= testejs.age %></div>
-                <% }); %>
+            <div class="centered">
+                <a href="/about">About</a>
             </div>
         </div>
-
     </main>
 </body>
 </html>

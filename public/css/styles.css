@@ -66,15 +66,20 @@ label {
 }
 
 .home_left {
-	width: 40%;
+	width: 35%;
+}
+@media screen and (max-width:750px) {
+  .home_left {
+	  
+  }
 }
 
 .home_right {
-	max-width: 600px;
+	max-width: 700px;
 }
 
 .calendar_wrapper {
-	max-width: 600px ;
+	max-width: 700px ;
 	margin: 0 auto;
 }
 

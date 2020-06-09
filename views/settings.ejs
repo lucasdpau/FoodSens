@@ -3,15 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <title>Settings</title>
 </head>
 <body>
-	<main>
-		<form action="/settings" method="POST">
-			<input type="number" name="dayslookingback" min="0" max="14" id="dayslookingback">
-			<label for="dayslookingback">How many days before an event to check for food eaten</label>
-			<input type="submit">
+	<main class="row">
+	<div class="col-2">
+	</div>
+	<div class="col-8">
+		<form action="/settings" method="POST" class="form-group">
+			<label for="dayslookingback">Days to analyze</label>
+			<input type="number" name="dayslookingback" min="0" max="14" id="dayslookingback" placeholder="Positive integers only" class="form-control">
+			<small class="form-text text-muted">The app will look back this many days before an event to find food to analyze.</small>
+			<input type="submit"  class="btn btn-primary">
 		</form>
+	</div>
+	<div class="col-2">
+	</div>
 	</main>
 </body>
 </html>

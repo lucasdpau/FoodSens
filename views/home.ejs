@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/core/main.css">
-    <link rel="stylesheet" type="text/css" href="css/daygrid/main.css">
+    <link rel="stylesheet" type="text/css" href="css/daygrid/main.css"> 
     <link rel="stylesheet" href="css/styles.css">
     <title>First Express Home</title>
 </head>
 <body>
     <main class="centered flex">
-    <div class="home_left">
+    <div class="home_left d-none d-lg-block">
     	<div class="left_events_wrapper">
             <h2>Your Reactions!</h2>
             <% eventlist.forEach(function(event) { %>
@@ -26,39 +27,30 @@
     </div>
     <div class="home_right">
 	<div>
-        <a href="/about">About</a>
+		<span> Hello <%= user.username %></span>
+        	<a href="/about">About</a>
 		<a href="/settings">settings!</a>
 		<a href="/logout">Logout!</a>
         </div>
 	<img src="images/express-icon.svg" style="height: 100px;">
-	<div>
-            <h1>Hello <%= user.username %></h1>  
-	</div>
 	<div class="calendar_wrapper">
         	<div id="calendar">
         	</div>
 	</div>
 	<div id="calendarModal" class="modal">
-		<div class="modal_content">
+		<div class="modal_content border border-dark rounded">
 			<span  id="calendarModalText">
 			</span>
 			<div>
-       		    <a href="/new_entry" id="modalNewEntry">New entries here!</a>
+       		     		<a href="/new_entry" id="modalNewEntry">New entries here!</a>
 				<br>
 				<a href="/new_food" id="modalNewFood">New food here!</a>
 			</div>
 		</div>
 	</div>
-	<a href="/analysis">Analysis</a>
-        <div>
-            <%= currentTime %> Current Time!
-            <br>
-            <%= currentYear%> Current Year!
-            <br>
-            <%= currentMonth %> Current Month!
-        </div>
-        <a href="/new_entry">New entries here!</a>
-	<br><a href="/new_food"> New food here!</a>
+	<a href="/analysis" class="btn btn-primary btn-lg  btn-block">Analysis</a>
+        <a href="/new_entry" class="btn btn-primary btn-lg btn-block">New entries here!</a>
+	<a href="/new_food" class="btn btn-primary btn-lg btn-block"> New food here!</a>
 	<div id="homeEventJSONStr">
 		<%= eventsJSONStr %>
 	</div>
