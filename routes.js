@@ -319,7 +319,7 @@ router.get('/analysis', function (req, res) {
 		    foodTotals[food['food_name']] = 1;
                 }
             });
-            eventDoc.forEach(function(doc){
+            await eventDoc.forEach(function(doc){
     // we add each event as a key, with the value being a list of foods eaten within the last x days
                 eventRecentFood = gatherRelatedFood(doc, foodDoc, daysToLookBack);
                 resultsList.push(eventRecentFood);
@@ -339,12 +339,12 @@ router.get('/analysis', function (req, res) {
                     resultsTally[doc["event_type"]]["food_fraction_str"][foodDoc["food_name"]] = resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]].toString() + "/" + foodTotals[foodDoc["food_name"]].toString();
                 });
 
-            })
+            });
             console.log('results list: ');
             console.dir(resultsList,{depth:null});
             console.log(resultsTally);
-            console.dir(foodTotals, {depth:null});
-            res.send(resultsList);
+            console.log(foodTotals);
+            res.render('analysis', {resultsTally: resultsTally});
         }
         analyze();
     }
