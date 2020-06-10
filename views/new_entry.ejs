@@ -3,34 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
     <title>New entry!</title>
 </head>
 <body>
-    <main>
-        Welcome to new entry!
-	<div>
-		<h2>Reaction!</h2>
-		<form action="/new_entry" method="POST">
-			<input type="text" name="event_type" id="event_type">
-			<label for="event_type">Type of event</label>
-			<br>
-			<input type="date" name="event_date" id="date">
-			<label for="date">Date</label>
-			<br>
-			<input type="range" name="event_severity" id="event_severity" min="0" max="10">
-			<label for="event_severity">Severity</label>
-			<br>
-			<input type="text" name="tags" id="tags">
-			<label for="tags">Tags</label>
-			<br>
-			<textarea name="description" id="description" style="resize:none;"></textarea>
-			<label for="description">description</label>
-			<input type="submit">
-		</form>
+    <main class="row">
+	<div class="col-2">
 	</div>
-	<div>
-		<a href="/home">Homepage</a>
+	<div class="col-8">
+		<h2 class="centered">Enter an event</h2>
+		<form action="/new_entry" method="POST">
+		<div class="form-group">
+			<label for="event_type">Type of event</label>
+			<input type="text" class="form-control form-control-lg"  name="event_type" id="event_type" autofocus>
+		</div>
+		<div class="form-group">
+			<label for="date">Date</label>
+			<input type="date" class="form-control"  name="event_date" id="date">
+		</div>
+		<div class="form-group">
+			<label for="event_severity">Severity</label>
+			<input type="range" class="form-control-range"  name="event_severity" id="event_severity" min="0" max="10">
+		</div>
+		<div class="form-group">
+			<label for="tags">Tags</label>
+			<input type="text" class="form-control"  name="tags" id="tags">
+		</div>
+		<div class="form-group">
+			<label for="description">Description</label>
+			<textarea name="description" class="form-control"  id="description" style="resize:none;"></textarea>
+		</div>
+			<input class="btn btn-primary btn-lg btn-block" type="submit">
+		</form>
+		<div class="centered">
+			<a href="/home">Homepage</a>
+		</div>
+	</div>
+	<div class="col-2">		
 	</div>
 	<div id="default_date" class="hidden">
 	<%= default_date %>
