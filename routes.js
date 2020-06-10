@@ -225,7 +225,13 @@ router.get('/logout', function (req, res) {
 router.get('/settings', function (req, res) {
     // we need to be logged in to use settings
     if (req.user) {
-        res.render('settings');
+        userCtrl.findById(req.user._id, function(err, doc) {
+	    if (err) {
+		console.err(err);
+	    }
+            const daysToLookBack = doc['settings']['daysLookingBack'];
+            res.render('settings', {daysToLookBack: daysToLookBack });
+        });
     }
     else {
         console.log('No user logged in. Redirecting to login');
@@ -234,8 +240,20 @@ router.get('/settings', function (req, res) {
 })
 router.post('/settings', function (req, res) {
     if (req.user) {
-        var dayslookingback = req.body.dayslookingback;
-        res.redirect('/settings');
+ 	userCtrl.findById(req.user._id, function(err, doc) {
+	    if (err) {
+		console.err(err);
+	    }
+        let dayslookingback = req.body.dayslookingback;
+	if (dayslookingback < 1 || dayslookingback > 14) {
+	    console.log('user entered a number out of range');
+	    res.redirect('/settings');
+	} else {
+	    doc.settings.daysLookingBack = dayslookingback;
+            doc.save();
+            res.redirect('/settings');
+	}
+        });
     }
     else {
         console.log('No user logged in. Redirecting to login');
@@ -344,7 +362,7 @@ router.get('/analysis', function (req, res) {
             console.dir(resultsList,{depth:null});
             console.log(resultsTally);
             console.log(foodTotals);
-            res.render('analysis', {resultsTally: resultsTally, daysToLookBack: daysToLookBack, });
+            res.render('analysis', {resultsTally: resultsTally, daysToLookBack: daysToLookBack, foodTotals: foodTotals,});
         }
         analyze();
     }

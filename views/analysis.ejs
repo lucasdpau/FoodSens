@@ -13,11 +13,12 @@
     	<p>In the <%= daysToLookBack %> days prior to each time you experienced <%= event %>, you have eaten:</p>
     	<ul>
      	   <% for (food in resultsTally[event]["food_count"]) {%>
-      	      <li><%= resultsTally[event]["food_count"][food]%> meals of <%= food%>. <%= resultsTally[event]["food_percent"][food] %>%</li>
+      	      <li><%= resultsTally[event]["food_count"][food]%> meals of <%= food%>. Total amount of <%= food%> logged in the app is <%= foodTotals[food] %>  <%= resultsTally[event]["food_percent"][food] %>%</li>
      	   <% } %>
   	  </ul>    
    	 
     	<% } %>
+
     </main>
 </body>
 </html>

@@ -12,11 +12,14 @@
 	</div>
 	<div class="container col-8">
 		<form action="/settings" method="POST" class="form-group">
-			<label for="dayslookingback">Days to analyze</label>
+			<label for="dayslookingback">Days to analyze (Currently set to <%=daysToLookBack%>)</label>
 			<input type="number" name="dayslookingback" min="0" max="14" id="dayslookingback" placeholder="Positive integers only" class="form-control" autofocus>
 			<small class="form-text text-muted">The app will look back this many days before an event to find food to analyze.</small>
 			<input type="submit"  class="btn btn-primary">
 		</form>
+		<div class="centered">
+			<a href="/">Home</a>
+		</div>
 	</div>
 	<div class="col-2">
 	</div>
