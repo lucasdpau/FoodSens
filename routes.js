@@ -324,6 +324,8 @@ router.get('/analysis', function (req, res) {
         resultsList = [];
         resultsTally = {};
 	foodTotals = {};
+	tagTally = {};
+	tagTotals = {};
         async function analyze() {
             var userObj = await userCtrl.findById(req.user._id);
             var eventDoc = await eventCtrl.find({'user': req.user._id});
@@ -346,6 +348,7 @@ router.get('/analysis', function (req, res) {
                     resultsTally[doc["event_type"]] = {"food_count":[], "food_percent":[], 
                                                        "food_fraction_str": []};
                 }
+    // add each recently eaten food related to the event to a tally
                 eventRecentFood["foods_in_range"].forEach(function(foodDoc){
                     if (foodDoc["food_name"] in resultsTally[doc["event_type"]]["food_count"]) {
                         resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]] += 1;
@@ -372,13 +375,11 @@ router.get('/analysis', function (req, res) {
         res.redirect('/');
     }
 })
-// pseudocode for analysis
-// function takes params of entryid, req, and how many days to look back
-// get the entry/event id, and get that object from the db
-// get "days to look back" and get all food entries within that range
-// look at the food/tags and add a point to each one
+
 
 const gatherRelatedFood = function (eventObj, foodDoc, daysToLookBack) {
+// returns an object with event_name and event_date as keys, and a list of  objects that contain
+// the name and date of recently eaten foods as keys
     const eventName = eventObj.event_type;
     var resultsObj = {"event_name": eventName.toLowerCase(), "event_date": eventObj.event_date, "foods_in_range": [],};
 // to reduce DB calls, we just get the entire foodQuerySet once, and filter with daysToLookBack
@@ -392,8 +393,9 @@ const gatherRelatedFood = function (eventObj, foodDoc, daysToLookBack) {
             foodsObj["food_name"] = doc["food_name"].toLowerCase();
             foodsObj["food_date"] = doc["datetime_eaten"];
             foodsObj["food_description"] = doc["description"];
-            //foodsObj["tags"] = doc["tags"];
-            //tags formats funny so disable it for now.
+// doc["tags"] is a CoreMongooseArray and directly referencing it will give us a lot of unwanted data/overhead
+// so we convert it into the simple array of strings that we want
+	    foodsObj["tags"] = JSON.parse(JSON.stringify(doc["tags"]));
             resultsObj["foods_in_range"].push(foodsObj);
         } else {
           console.log(doc.food_name + " out of range");
