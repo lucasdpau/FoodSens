@@ -9,19 +9,27 @@
 </head>
 <body>
     <main class="container">
-	<div>
+	<div class="row">
     	<% for (event in resultsTally) {%>
-    	<p>In the <%= daysToLookBack %> days prior to each time you experienced <%= event %>, you have eaten:</p>
-    	<ul>
-     	    <% for (food in resultsTally[event]["food_count"]) {%>
-      	        <li><%= resultsTally[event]["food_count"][food]%> meals of <%= food%>. Total amount of <%= food%> logged in the app is <%= foodTotals[food] %>  <%= resultsTally[event]["food_percent"][food] %>%</li>
-     	    <% } %>
-  	</ul>    
-   	<ul>
-	    <% for (tag in resultsTally[event]["tag_count"]) {%>
-		<li><%= resultsTally[event]["tag_count"][tag] %> <%= tag %> out of a total <%= tagTotals[tag] %> </li>
-	    <% } %>
-	</ul> 
+	    <div class="col-lg-4 col-md-6 col-sm-6 card-deck" >
+		<div class="card">
+		  <div class="card-body bg-success mb-3">
+    		    <h5 class="card-title text-center"><%= event %></h5>
+    		    <p class="card-text">In the <%= daysToLookBack %> days prior to each time you experienced <%= event %>, you have eaten:</p>
+    			<ul class="list-group list-group-flush">
+     			    <% for (food in resultsTally[event]["food_count"]) {%>
+      			        <li class="list-group-item"><%= resultsTally[event]["food_count"][food]%> meals of <%= food%>. Total amount of <%= food%> logged in the app is <%= foodTotals[food] %>  <%= resultsTally[event]["food_percent"][food] %>%</li>
+     			    <% } %>
+  			</ul>    
+			<h5 class="card-header text-center">Tags</h5>
+   			<ul class="list-group list-group-flush">
+			    <% for (tag in resultsTally[event]["tag_count"]) {%>
+				<li class="list-group-item"><%= resultsTally[event]["tag_count"][tag] %> <%= tag %> out of a total <%= tagTotals[tag] %> </li>
+			    <% } %>
+			</ul> 
+ 	  	  </div>
+		</div>
+	    </div>
     	<% } %>
 
 	</div>
