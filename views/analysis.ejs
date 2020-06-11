@@ -9,16 +9,25 @@
 </head>
 <body>
     <main class="container">
+	<div>
     	<% for (event in resultsTally) {%>
     	<p>In the <%= daysToLookBack %> days prior to each time you experienced <%= event %>, you have eaten:</p>
     	<ul>
-     	   <% for (food in resultsTally[event]["food_count"]) {%>
-      	      <li><%= resultsTally[event]["food_count"][food]%> meals of <%= food%>. Total amount of <%= food%> logged in the app is <%= foodTotals[food] %>  <%= resultsTally[event]["food_percent"][food] %>%</li>
-     	   <% } %>
-  	  </ul>    
-   	 
+     	    <% for (food in resultsTally[event]["food_count"]) {%>
+      	        <li><%= resultsTally[event]["food_count"][food]%> meals of <%= food%>. Total amount of <%= food%> logged in the app is <%= foodTotals[food] %>  <%= resultsTally[event]["food_percent"][food] %>%</li>
+     	    <% } %>
+  	</ul>    
+   	<ul>
+	    <% for (tag in resultsTally[event]["tag_count"]) {%>
+		<li><%= resultsTally[event]["tag_count"][tag] %> <%= tag %> out of a total <%= tagTotals[tag] %> </li>
+	    <% } %>
+	</ul> 
     	<% } %>
 
+	</div>
+	<div>
+	   <a href="/">Home</a>
+	</div>
     </main>
 </body>
 </html>

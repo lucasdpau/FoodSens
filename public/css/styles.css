@@ -25,16 +25,26 @@ label {
 	display: flex;
 }
 
+
 .login_left {
-	width: 40%;
+	width: 30%;
+	min-height: 100vh;
+	background-color: green;
+	color: white;
+}
+
+.login_left_text_wrapper {
+	margin-top: 30%;
 }
 
 .login_right {
 	max-width: 600px;
+	flex-grow: 1;
 }
 
 .login_wrapper {
 	padding: 40px;
+	padding-top: 100px;
 }
 
 .login_input {
@@ -63,6 +73,10 @@ label {
 
 .login_register a {
 	color: black;
+}
+
+.register_form {
+	margin-top: 50px;
 }
 
 .home_left {

@@ -164,6 +164,7 @@ router.post('/register', function (req, res) {
 })
 
 router.get('/new_entry', function (req, res) {
+// use the query string to pass the default date to JS in the view
     var default_date = req.query.date;
     console.log('default date is: ' + default_date);
     res.render('new_entry', {default_date: default_date, });
@@ -175,7 +176,7 @@ router.post('/new_entry', function (req, res) {
     var event_severity = req.body.event_severity;
     var description = req.body.description;
 // create an array from the tags form, each entry split by spaces
-    var tags = req.body.tags.split(' ')
+    var tags = req.body.tags.toLowerCase().split(' ')
     eventCtrl.create( { event_type: event_type, 
                         event_date: event_date, 
                         event_severity: event_severity, 
@@ -198,7 +199,7 @@ router.post("/new_food", function (req, res) {
     var food_date = req.body.date;
     var description = req.body.description;
 // create an array from the tags form, each entry split by spaces
-    var tags = req.body.tags.split(' ');
+    var tags = req.body.tags.toLowerCase().split(' ');
     foodCtrl.create( {
         food_name: food,
         datetime_eaten: food_date,
@@ -380,7 +381,7 @@ router.get('/analysis', function (req, res) {
             console.log(resultsTally);
             console.log(foodTotals);
 	    console.log(tagTotals);
-            res.render('analysis', {resultsTally: resultsTally, daysToLookBack: daysToLookBack, foodTotals: foodTotals,});
+            res.render('analysis', {resultsTally: resultsTally, daysToLookBack: daysToLookBack, foodTotals: foodTotals, tagTotals: tagTotals,});
         }
         analyze();
     }
