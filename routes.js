@@ -48,10 +48,6 @@ router.get('/hello', function (req, res) {
 
 router.get('/home', function (req, res) {
 // TODO: at first just send the events/food lists of the current month. then send other months only if requested
-    currentDate = new Date;
-    currentYear = currentDate.getFullYear();
-    currentMonth = currentDate.getMonth();
-    currentTime = Date.now();
     if (req.user) {
         console.log('logged in user _id is' + req.user._id)
         eventCtrl.find( {'user': req.user._id }, function (err, eventlist) {
@@ -62,16 +58,12 @@ router.get('/home', function (req, res) {
                 if (err) {
                     return console.error(err);
                 }
-                console.log(currentTime);
 		eventsJSONStr = JSON.stringify(eventlist);
                 res.render('home', { 
                     user:req.user, 
                     eventlist: eventlist, 
                     eventsJSONStr: eventsJSONStr,
                     foodlist: foodlist, 
-                    currentTime: currentTime,
-                    currentYear: currentYear,
-                    currentMonth: currentMonth
                 });
             })
         })
@@ -182,7 +174,8 @@ router.post('/new_entry', function (req, res) {
     var event_date = req.body.event_date;
     var event_severity = req.body.event_severity;
     var description = req.body.description;
-    var tags = req.body.tags.split(',')
+// create an array from the tags form, each entry split by spaces
+    var tags = req.body.tags.split(' ')
     eventCtrl.create( { event_type: event_type, 
                         event_date: event_date, 
                         event_severity: event_severity, 
@@ -204,7 +197,8 @@ router.post("/new_food", function (req, res) {
     var food = req.body.food.toLowerCase();
     var food_date = req.body.date;
     var description = req.body.description;
-    var tags = req.body.tags.split(',');
+// create an array from the tags form, each entry split by spaces
+    var tags = req.body.tags.split(' ');
     foodCtrl.create( {
         food_name: food,
         datetime_eaten: food_date,
@@ -324,12 +318,11 @@ router.get('/analysis', function (req, res) {
         resultsList = [];
         resultsTally = {};
 	foodTotals = {};
-	tagTally = {};
 	tagTotals = {};
         async function analyze() {
-            var userObj = await userCtrl.findById(req.user._id);
-            var eventDoc = await eventCtrl.find({'user': req.user._id});
-            var foodDoc = await foodCtrl.find({'user': req.user._id});
+            var userObj = await userCtrl.findById(req.user._id).lean();
+            var eventDoc = await eventCtrl.find({'user': req.user._id}).lean();
+            var foodDoc = await foodCtrl.find({'user': req.user._id}).lean();
             const daysToLookBack = userObj['settings']['daysLookingBack'];
             console.log("days to look back = " + daysToLookBack);
             foodDoc.forEach(function(food){
@@ -338,6 +331,16 @@ router.get('/analysis', function (req, res) {
                 } else {
 		    foodTotals[food['food_name']] = 1;
                 }
+
+		food.tags.forEach(function(tags){
+		    if (!tags == '') {
+			if (tagTotals[tags]) {
+			    tagTotals[tags] += 1;
+			} else {
+			    tagTotals[tags] = 1;
+			}
+		    }
+		});
             });
             await eventDoc.forEach(function(doc){
     // we add each event as a key, with the value being a list of foods eaten within the last x days
@@ -346,10 +349,10 @@ router.get('/analysis', function (req, res) {
     // resultsTally will keep track of the points for each event/food
                 if (!(doc["event_type"] in resultsTally)){
                     resultsTally[doc["event_type"]] = {"food_count":[], "food_percent":[], 
-                                                       "food_fraction_str": []};
+                                                       "food_fraction_str": [], "tag_count":[],};
                 }
     // add each recently eaten food related to the event to a tally
-                eventRecentFood["foods_in_range"].forEach(function(foodDoc){
+                eventRecentFood["foods_in_range"].forEach(function(foodDoc) {
                     if (foodDoc["food_name"] in resultsTally[doc["event_type"]]["food_count"]) {
                         resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]] += 1;
                     } else {
@@ -358,6 +361,17 @@ router.get('/analysis', function (req, res) {
     // calculate the percentage of foods that are associated with this event
                     resultsTally[doc["event_type"]]["food_percent"][foodDoc["food_name"]] = (resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]] * 100 / foodTotals[foodDoc["food_name"]]).toFixed(1);
                     resultsTally[doc["event_type"]]["food_fraction_str"][foodDoc["food_name"]] = resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]].toString() + "/" + foodTotals[foodDoc["food_name"]].toString();
+    // go through each tag in foodDoc's tag array and tally it in resultsTally tag_count
+		    foodDoc["tags"].forEach(function(tag) {
+    // exclude blank entries
+			if (!tag == '') {
+  			    if (tag in resultsTally[doc["event_type"]]["tag_count"]) {
+				resultsTally[doc["event_type"]]["tag_count"][tag] += 1;
+			    } else {
+				resultsTally[doc["event_type"]]["tag_count"][tag] = 1;
+			    }
+			}
+		    });
                 });
 
             });
@@ -365,6 +379,7 @@ router.get('/analysis', function (req, res) {
             console.dir(resultsList,{depth:null});
             console.log(resultsTally);
             console.log(foodTotals);
+	    console.log(tagTotals);
             res.render('analysis', {resultsTally: resultsTally, daysToLookBack: daysToLookBack, foodTotals: foodTotals,});
         }
         analyze();
