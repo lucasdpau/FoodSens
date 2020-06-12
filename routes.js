@@ -350,7 +350,7 @@ router.get('/analysis', function (req, res) {
     // resultsTally will keep track of the points for each event/food
                 if (!(doc["event_type"] in resultsTally)){
                     resultsTally[doc["event_type"]] = {"food_count":[], "food_percent":[], 
-                                                       "food_fraction_str": [], "tag_count":[],};
+                                                       "tag_count":[],};
                 }
     // add each recently eaten food related to the event to a tally
                 eventRecentFood["foods_in_range"].forEach(function(foodDoc) {
@@ -361,7 +361,6 @@ router.get('/analysis', function (req, res) {
                     }
     // calculate the percentage of foods that are associated with this event
                     resultsTally[doc["event_type"]]["food_percent"][foodDoc["food_name"]] = (resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]] * 100 / foodTotals[foodDoc["food_name"]]).toFixed(1);
-                    resultsTally[doc["event_type"]]["food_fraction_str"][foodDoc["food_name"]] = resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]].toString() + "/" + foodTotals[foodDoc["food_name"]].toString();
     // go through each tag in foodDoc's tag array and tally it in resultsTally tag_count
 		    foodDoc["tags"].forEach(function(tag) {
     // exclude blank entries
