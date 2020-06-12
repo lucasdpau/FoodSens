@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link ref="stylesheet" type="text/css" href="css/styles.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
     <title>Analysis</title>
 </head>
-<body>
+<body id="analysis_background">
     <main class="container">
+	<h2 class="centered mb-3">Analysis</h2>
 	<div class="row">
     	<% for (event in resultsTally) {%>
 	    <div class="col-lg-4 col-md-6 col-sm-6 card-deck" >
 		<div class="card">
-		  <div class="card-body bg-success">
+		  <div class="card-body">
     		    <h5 class="card-title text-center"><%= event %></h5>
     		    <p class="card-text">In the <%= daysToLookBack %> days prior to each time you experienced <%= event %>, you have eaten:</p>
     			<ul class="list-group list-group-flush">
@@ -33,7 +34,7 @@
     	<% } %>
 
 	</div>
-	<div>
+	<div class="centered pt-3">
 	   <a href="/">Home</a>
 	</div>
     </main>
