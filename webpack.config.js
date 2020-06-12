@@ -2,9 +2,9 @@ const path = require('path');
 
 module.exports = [
 {
-  entry: './src/index.js',
+  entry: './src/home.js',
   output: {
-    filename: 'main.js',
+    filename: 'home.js',
     path: path.resolve(__dirname, 'public'),
   },
 },

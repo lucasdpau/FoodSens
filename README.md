@@ -1,6 +1,6 @@
 #FoodSens
 
-FoodSens is a web app that lets you record your meals and any allergies/reactions that you experience. You can then use these records to identify the types of foods that trigger certain reactions, allergies, or flare-ups.
+FoodSens lets you correlate your meals and any allergies, reactions or flare-ups that you experience.
 
 First create an account and log in, you don't want to get your meals and reactions confused with anyone elses!
 
