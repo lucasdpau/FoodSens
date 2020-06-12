@@ -79,6 +79,14 @@ label {
 	margin-top: 50px;
 }
 
+.home_navbar {
+	justify-content: flex-end;
+}
+
+.home_dropdown_menu:hover {
+	background-color: #ddd;
+}
+
 .home_left {
 	width: 35%;
 }
@@ -114,6 +122,22 @@ label {
 	padding: 20px;
 	width: 50%;
 	background-color: white;
+}
+
+#profile_menu {
+	display: relative;
+}
+
+#profile_menu:hover {
+	background-color: #ddd;
+}
+
+#profile_dropdown {
+	display: none;
+	position: absolute;
+	border-width: 1px;
+	border-color: black;
+	border-style: solid;
 }
 
 #calendar {
