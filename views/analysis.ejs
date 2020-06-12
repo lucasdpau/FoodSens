@@ -32,8 +32,22 @@
 		</div>
 	    </div>
     	<% } %>
-
 	</div>
+	<div>
+		<table>
+		<tr>
+			<td>Event</td><td>Food</td><td>Recently Eaten</td> <td>Total Eaten</td> <td>Percentage</td>
+		</tr>
+		<% for (event in resultsTally) {%>
+			<% for (food in resultsTally[event]["food_count"]) { %>
+				<tr><td><%=event%></td><td><%=food%></td><td><%= resultsTally[event]["food_count"][food] %></td><td><%= foodTotals[food] %></td><td><%= resultsTally[event]["food_percent"][food] %></td></tr>
+			<% } %>
+			<% for (tag in resultsTally[event]["tag_count"]) { %>
+				<tr><td><%=event%></td><td><%=tag%></td><td><%= resultsTally[event]["tag_count"][tag] %></td><td><%= tagTotals[tag] %></td><td>N/A</td></tr>
+			<% } %>
+		<% } %>
+		</table>
+	</diV>
 	<div class="centered pt-3">
 	   <a href="/">Home</a>
 	</div>
