@@ -359,6 +359,7 @@ router.get('/analysis', function (req, res) {
             var foodDoc = await foodCtrl.find({'user': req.user._id}).lean();
             const daysToLookBack = userObj['settings']['daysLookingBack'];
             console.log("days to look back = " + daysToLookBack);
+   // populate the totals first.
             foodDoc.forEach(function(food){
                 if (food['food_name'] in foodTotals) {
 		    foodTotals[food['food_name']] += 1;
@@ -383,7 +384,7 @@ router.get('/analysis', function (req, res) {
     // resultsTally will keep track of the points for each event/food
                 if (!(doc["event_type"] in resultsTally)){
                     resultsTally[doc["event_type"]] = {"food_count":[], "food_percent":[], 
-                                                       "tag_count":[],};
+                                                       "tag_count":[], "tag_percent":[]};
                 }
     // add each recently eaten food related to the event to a tally
                 eventRecentFood["foods_in_range"].forEach(function(foodDoc) {
@@ -403,6 +404,7 @@ router.get('/analysis', function (req, res) {
 			    } else {
 				resultsTally[doc["event_type"]]["tag_count"][tag] = 1;
 			    }
+			    resultsTally[doc["event_type"]]["tag_percent"][tag] = (resultsTally[doc["event_type"]]["tag_count"][tag] * 100 / tagTotals[tag]).toFixed(1);
 			}
 		    });
                 });
