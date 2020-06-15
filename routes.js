@@ -73,13 +73,11 @@ router.get('/home', function (req, res) {
         res.redirect('/');
     }
 })
-router.post('/home', function (req, res) {
-    res.send("you did a POST");
-})
 
 
 router.get('/getevents', function (req, res) {
-    // gets all events and parses it into a JSON object that fullcalendar can read
+    // the frontend JS calls this route to 
+    // get all events and parse it into a JSON object that fullcalendar can read
     if (req.user) {
         eventCtrl.find( {'user': req.user._id }, function (err, eventlist) {
             if (err) {
@@ -176,12 +174,10 @@ router.post('/new_entry', function (req, res) {
     var event_severity = req.body.event_severity;
     var description = req.body.description;
 // create an array from the tags form, each entry split by spaces
-    var tags = req.body.tags.toLowerCase().split(' ')
     eventCtrl.create( { event_type: event_type, 
                         event_date: event_date, 
                         event_severity: event_severity, 
                         description: description, 
-                        tags: tags,
                         user: req.user._id,
                         } );
     res.redirect('/home');
@@ -273,9 +269,10 @@ router.get('/entry/:entryId', function (req, res) {
                 console.error(err);
             }
             if (String(doc.user) == String(userId)) {
-                res.send(doc);	
+                res.render('entry', {doc: doc, entryId:entryId, username: req.user.username} );	
             }
             else {
+		res.status(403);
                 res.send('error: wrong user');
             }
 	    });
@@ -284,8 +281,6 @@ router.get('/entry/:entryId', function (req, res) {
         res.send('error: please login');
     }
 })
-
-
 router.get('/food/:foodId', function (req, res) {
     var foodId = req.params.foodId;
     // need to convert the string into an object id for mongoose
@@ -297,11 +292,49 @@ router.get('/food/:foodId', function (req, res) {
                 console.error(err);
               }
             if (String(doc.user) == String(userId)) {
-                res.send(doc);	
+                res.render('food', {doc:doc, foodId:foodId, username: req.user.username});	
               }
             else {
+		res.status(403);
                 res.send('error: wrong user');
               }
+	    });
+    }
+    else {
+        res.send('error: please login');
+    }
+})
+
+router.get('/deleteentry/:entryId', function (req, res) {   
+    var entryId = req.params.entryId;
+    var objEntryId = mongoose.Types.ObjectId(entryId);
+    if (req.user) {
+        var userId = req.user._id;
+	    eventCtrl.deleteOne({'user': userId, _id: objEntryId}, function (err) {
+		if (err) {
+			console.error(err);
+		} else {
+			console.log("Deleted!");
+			res.redirect('/home');
+		}
+	    });
+    }
+    else {
+        res.send('error: please login');
+    }
+})
+router.get('/deletefood/:foodId', function (req, res) {   
+    var foodId = req.params.foodId;
+    var objFoodId = mongoose.Types.ObjectId(foodId);
+    if (req.user) {
+        var userId = req.user._id;
+	    foodCtrl.deleteOne({'user': userId, _id: objFoodId}, function (err) {
+		if (err) {
+			console.error(err);
+		} else {
+			console.log("Deleted!");
+			res.redirect('/home');
+		}
 	    });
     }
     else {

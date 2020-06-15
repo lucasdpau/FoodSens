@@ -11,15 +11,17 @@
     <main>
 	<div class="container">
 		<div>
-			Event: <%= doc.event_type %>
+			Event: <%= doc.food_name %>
 		</div><div>
-			Date: <%= doc.event_date %>
+			Date: <%= doc.datetime_eaten %>
 		</div><div>
 			Description: <%= doc.description %>
+		</div><div>
+			Tags/Ingredients: <%= doc.tags %>
 		</div>
 	</div>
 	<div>
-		<a href="/deleteentry/<%= entryId %>">Delete this entry</a>
+		<a href="/deletefood/<%= foodId %>">Delete this food entry</a>
 	</div>
     </main>
 </body>
