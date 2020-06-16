@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/core/main.css">
     <link rel="stylesheet" type="text/css" href="css/daygrid/main.css"> 
     <link rel="stylesheet" href="css/styles.css">
-    <title>First Express Home</title>
+    <title>Home</title>
 </head>
 <body>
     <main class="centered flex">
@@ -33,8 +33,8 @@
 	<nav class="nav home_navbar">
         	<a href="/about" class="nav-link">About</a>
 		<div id="profile_menu" class="nav-link"> 
-			Hello <%= user.username %>
-			<div id="profile_dropdown">
+			Hello <%= user.username %> <img id="dropdown_gear" src="images/gear-icon.svg">
+			<div id="profile_dropdown" style="display: none;">
 				<a href="/settings" class="nav-link home_dropdown_menu">Settings</a>
 				<a href="/logout" class="nav-link home_dropdown_menu">Logout</a>
 			</div>

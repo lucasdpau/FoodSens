@@ -13,18 +13,6 @@ label {
 	margin-bottom: 10px;
 }
 
-table {
-	border-style: solid;
-}
-
-tr {
-	border-style: solid;
-}
-
-td {
-	border-style: solid;
-}
-
 .centered {
 	text-align: center;
 }
@@ -157,6 +145,11 @@ td {
 
 #profile_menu:hover {
 	background-color: #ddd;
+}
+
+#profile_menu:hover #dropdown_gear {
+	transform: rotateZ(180deg);
+	transition: transform 1s;
 }
 
 #profile_dropdown {
