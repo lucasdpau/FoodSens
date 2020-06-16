@@ -2,6 +2,17 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 
+
+const profileMenuToggle = document.getElementById("profile_menu");
+const profileMenuDropdown = document.getElementById("profile_dropdown");
+profileMenuToggle.addEventListener('click', function() {
+  if (profileMenuDropdown.style.display == "none") {
+    profileMenuDropdown.style.display = "block";
+  } else {
+    profileMenuDropdown.style.display = "none";
+  }
+});
+
 var modalBackground = document.getElementById("calendarModal");
 var modalText = document.getElementById("calendarModalText");
 var modalNewEntry = document.getElementById("modalNewEntry");
@@ -56,15 +67,4 @@ modalNewEntry.addEventListener('click', function() {
 
 modalNewFood.addEventListener('click', function() {
   modalText.innerHTML = "<h4>peekafood</h4>";
-});
-
-
-const profileMenuToggle = document.getElementById("profile_menu");
-const profileMenuDropdown = document.getElementById("profile_dropdown");
-profileMenuToggle.addEventListener('click', function() {
-  if (profileMenuDropdown.style.display == "none") {
-    profileMenuDropdown.style.display = "block";
-  } else {
-    profileMenuDropdown.style.display = "none";
-  }
 });

@@ -17,8 +17,20 @@ table {
 	border-style: solid;
 }
 
+tr {
+	border-style: solid;
+}
+
+td {
+	border-style: solid;
+}
+
 .centered {
 	text-align: center;
+}
+
+.align_left {
+	text-align: left;
 }
 
 .hidden {
@@ -140,6 +152,7 @@ table {
 
 #profile_menu {
 	position: relative;
+	cursor: pointer;
 }
 
 #profile_menu:hover {

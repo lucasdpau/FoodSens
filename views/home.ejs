@@ -14,15 +14,19 @@
     <div class="home_left d-none d-lg-block">
     	<div class="left_events_wrapper">
             <h2>Your Reactions!</h2>
+	    <ul>
             <% eventlist.forEach(function(event) { %>
-                <a href="entry/<%= event._id %>"><%= event.event_type %> on <%= event.event_date.toDateString() %></a><br>
+                <li class="align_left"><a href="entry/<%= event._id %>"><%= event.event_date.toDateString() %> - <%= event.event_type %></a></li>
         <% }); %>
+	    </ul>
 	</div>
     	<div class="left_foods_wrapper">
             <h2>Your foodies!</h2>
+		<ul>
             <% foodlist.forEach(function(food) { %>
-                <a href="food/<%= food._id %>"><%= food.food_name %> on <%= food.datetime_eaten.toDateString() %></a><br>
+                <li class="align_left"><a href="food/<%= food._id %>"><%= food.datetime_eaten.toDateString() %> - <%= food.food_name %> </a></li>
             <% }); %>
+		</ul>
 	</div>
     </div>
     <div class="home_right">
