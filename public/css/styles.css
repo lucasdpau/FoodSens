@@ -139,7 +139,7 @@ table {
 }
 
 #profile_menu {
-	display: relative;
+	position: relative;
 }
 
 #profile_menu:hover {
@@ -147,8 +147,10 @@ table {
 }
 
 #profile_dropdown {
+	margin: 0.5rem;
 	display: none;
 	position: absolute;
+	right: 0px;
 	border-width: 1px;
 	border-color: black;
 	border-style: solid;
