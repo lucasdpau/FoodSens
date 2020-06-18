@@ -33,8 +33,9 @@ label {
 .login_left {
 	width: 30%;
 	min-height: 100vh;
-	background-color: green;
+	opacity: 1;
 	color: white;
+	background: linear-gradient(rgba(0, 128, 0, 0.7), rgba(0, 128, 0, 0.7)), url("../images/foods.jpg");
 }
 
 .login_left_text_wrapper {
@@ -76,10 +77,6 @@ label {
 
 .login_register {
 	margin-top: 40px;
-}
-
-.login_register a {
-	color: black;
 }
 
 .register_form {
