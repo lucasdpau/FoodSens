@@ -18,6 +18,10 @@ var modalText = document.getElementById("calendarModalText");
 var modalNewEntry = document.getElementById("modalNewEntry");
 var modalNewFood = document.getElementById("modalNewFood");
 
+var modalEventBackground = document.getElementById("calendarEventModal");
+var modalEventText = document.getElementById("calendarEventModalText");
+var modalEventLink = document.getElementById("modalEventLink");
+
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
 
@@ -29,14 +33,20 @@ document.addEventListener('DOMContentLoaded', function() {
         url:'/getevents',
       },
       {
-        url: 'getfoods',
+        url: '/getfoods',
         color: 'green'
       }
     ],
 
     eventClick: function(info) {
-      console.log(info.event.title);
-      console.log(info.view.title);
+      modalEventBackground.style.display = "block";
+      modalEventText.innerHTML = "You clicked on the event with the id ";
+      modalEventLink.innerHTML = info.event.id;
+      if (info.event.source.url == "/getevents") {
+        modalEventLink.setAttribute("href", "entry/" + info.event.id);
+      } else {
+        modalEventLink.setAttribute("href", "food/" + info.event.id); 
+      }
     },
 
     dateClick: function(info) {
@@ -57,6 +67,9 @@ window.onclick = function(event) {
 // if we click outside the modal window we get rid of it
   if (event.target == document.getElementById("calendarModal")) {
     document.getElementById("calendarModal").style.display = "none";
+  }
+  if (event.target == modalEventBackground) {
+    modalEventBackground.style.display = "none";
   }
 }
 

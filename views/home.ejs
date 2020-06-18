@@ -13,7 +13,7 @@
     <main class="centered flex">
     <div class="home_left d-none d-lg-block">
     	<div class="left_events_wrapper">
-            <h2>Your Reactions!</h2>
+            <h2>Your Reactions</h2>
 	    <ul>
             <% eventlist.forEach(function(event) { %>
                 <li class="align_left"><a href="entry/<%= event._id %>"><%= event.event_date.toDateString() %> - <%= event.event_type %></a></li>
@@ -21,7 +21,7 @@
 	    </ul>
 	</div>
     	<div class="left_foods_wrapper">
-            <h2>Your foodies!</h2>
+            <h2>Your foodies</h2>
 		<ul>
             <% foodlist.forEach(function(food) { %>
                 <li class="align_left"><a href="food/<%= food._id %>"><%= food.datetime_eaten.toDateString() %> - <%= food.food_name %> </a></li>
@@ -50,16 +50,25 @@
 			<span  id="calendarModalText">
 			</span>
 			<div>
-       		     		<a href="/new_entry" id="modalNewEntry">New entries here!</a>
+       		     		<a href="/new_entry" id="modalNewEntry">New entries here</a>
 				<br>
-				<a href="/new_food" id="modalNewFood">New food here!</a>
+				<a href="/new_food" id="modalNewFood">New food here</a>
+			</div>
+		</div>
+	</div>
+	<div id="calendarEventModal" class="modal">
+		<div class="modal_content border border-dark rounded container">
+			<span  id="calendarEventModalText">
+			</span>
+			<div>
+       		    <a href="" id="modalEventLink">Link to entry here</a>
 			</div>
 		</div>
 	</div>
 	<div class="container">
 		<a href="/analysis" class="btn btn-primary btn-lg  btn-block">Analysis</a>
-        	<a href="/new_entry" class="btn btn-primary btn-lg btn-block">New entries here!</a>
-		<a href="/new_food" class="btn btn-primary btn-lg btn-block"> New food here!</a>
+        	<a href="/new_entry" class="btn btn-primary btn-lg btn-block">New entries here</a>
+		<a href="/new_food" class="btn btn-primary btn-lg btn-block"> New food here</a>
 	</div>
 	<div id="homeEventJSONStr">
 		<%= eventsJSONStr %>
