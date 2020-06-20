@@ -34,14 +34,14 @@ document.addEventListener('DOMContentLoaded', function() {
       },
       {
         url: '/getfoods',
-        color: 'green'
+        color: 'green',
       }
     ],
 
     eventClick: function(info) {
       modalEventBackground.style.display = "block";
-      modalEventText.innerHTML = "You clicked on the event with the id ";
-      modalEventLink.innerHTML = info.event.id;
+      modalEventText.innerHTML = "You had " + info.event.title + " on " + info.event.start;
+      modalEventLink.innerHTML = "View your " + " record here";
       if (info.event.source.url == "/getevents") {
         modalEventLink.setAttribute("href", "entry/" + info.event.id);
       } else {
