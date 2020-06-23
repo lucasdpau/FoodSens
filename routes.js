@@ -90,8 +90,8 @@ router.get('/getevents', function (req, res) {
 		var formatted_date = new Date(item.event_date);
 		formatted_date.setDate(formatted_date.getUTCDate());
 		new_event_item = {};
-		new_event_item['allDay'] = "";
-		new_event_item['title'] = item.event_type;
+		new_event_item['allDay'] = true;
+		new_event_item['title'] = item.event_type[0].toUpperCase() + item.event_type.slice(1);
 		new_event_item['id'] = item._id;
 		new_event_item['end'] = formatted_date;
 		new_event_item['start'] = formatted_date;
@@ -120,8 +120,8 @@ router.get('/getfoods', function (req, res) {
 		var formatted_date = new Date(item.datetime_eaten);
 		formatted_date.setDate(formatted_date.getUTCDate());
 		new_food_item = {};
-		new_food_item['allDay'] = "";
-		new_food_item['title'] = item.food_name;
+		new_food_item['allDay'] = true;
+		new_food_item['title'] = item.food_name[0].toUpperCase() + item.food_name.slice(1);
 		new_food_item['id'] = item._id;
 		new_food_item['end'] = formatted_date;
 		new_food_item['start'] = formatted_date;
