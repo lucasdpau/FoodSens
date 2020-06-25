@@ -396,25 +396,29 @@ router.get('/analysis', function (req, res) {
     // calculate the percentage of foods that are associated with this event
                     resultsTally[doc["event_type"]]["food_percent"][foodDoc["food_name"]] = (resultsTally[doc["event_type"]]["food_count"][foodDoc["food_name"]] * 100 / foodTotals[foodDoc["food_name"]]).toFixed(1);
     // go through each tag in foodDoc's tag array and tally it in resultsTally tag_count
-		    foodDoc["tags"].forEach(function(tag) {
+		            foodDoc["tags"].forEach(function(tag) {
     // exclude blank entries
-			if (!tag == '') {
-  			    if (tag in resultsTally[doc["event_type"]]["tag_count"]) {
-				resultsTally[doc["event_type"]]["tag_count"][tag] += 1;
-			    } else {
-				resultsTally[doc["event_type"]]["tag_count"][tag] = 1;
-			    }
-			    resultsTally[doc["event_type"]]["tag_percent"][tag] = (resultsTally[doc["event_type"]]["tag_count"][tag] * 100 / tagTotals[tag]).toFixed(1);
-			}
-		    });
+                        if (!tag == '') {
+                            if (tag in resultsTally[doc["event_type"]]["tag_count"]) {
+                            resultsTally[doc["event_type"]]["tag_count"][tag] += 1;
+                            } else {
+                            resultsTally[doc["event_type"]]["tag_count"][tag] = 1;
+                            }
+                            resultsTally[doc["event_type"]]["tag_percent"][tag] = (resultsTally[doc["event_type"]]["tag_count"][tag] * 100 / tagTotals[tag]).toFixed(1);
+                        }
+		            });
                 });
-
             });
+            for (event in resultsTally) {
+                if (Object.keys(resultsTally[event]["food_count"]).length == 0 ) {
+                    delete resultsTally[event]
+                }
+            }
             console.log('results list: ');
             console.dir(resultsList,{depth:null});
             console.log(resultsTally);
             console.log(foodTotals);
-	    console.log(tagTotals);
+	        console.log(tagTotals);
             res.render('analysis', {resultsTally: resultsTally, daysToLookBack: daysToLookBack, foodTotals: foodTotals, tagTotals: tagTotals,});
         }
         analyze();

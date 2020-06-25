@@ -31,10 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
     eventSources: [
       {
         url:'/getevents',
+        textColor: 'white',
       },
       {
         url: '/getfoods',
         color: 'green',
+        textColor: 'white',
       }
     ],
 

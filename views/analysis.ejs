@@ -11,35 +11,35 @@
     <main class="container">
 	<h2 class="centered mt-3 mb-3">Analysis</h2>
 	<div class="row">
-    	<% for (event in resultsTally) {%>
-	    <div class="col-lg-4 col-md-6 col-sm-6 card-deck" >
-		<div class="card">
-		  <div class="card-body">
-    		    <h5 class="card-title text-center"><%= event %></h5>
-    		    <p class="card-text">Looking back <%= daysToLookBack %> days prior to each time you experienced <%= event %>, you have eaten:</p>
-			<h5 class="card-header text-center">Meals</h5>
-    			<ul class="list-group list-group-flush">
-     			    <% for (food in resultsTally[event]["food_count"]) {%>
-      			        <li class="list-group-item">
-					<%= resultsTally[event]["food_count"][food]%> 
-					<% if (resultsTally[event]["food_count"][food] == 1) { %>
-						meal
-					<% } else { %>
-						meals 
-					<% } %>of <%= food%>. The total number of <%= food%> meals you recorded is <%= foodTotals[food] %>.
-					<br>Therefore <%= food%> resulted in a reaction <%= resultsTally[event]["food_percent"][food] %>% of the time.
-				</li>
-     			    <% } %>
-  			</ul>    
-			<h5 class="card-header text-center">Tags</h5>
-   			<ul class="list-group list-group-flush">
-			    <% for (tag in resultsTally[event]["tag_count"]) {%>
-				<li class="list-group-item"><%= resultsTally[event]["tag_count"][tag] %> <%= tag %> out of a total <%= tagTotals[tag] %> </li>
-			    <% } %>
-			</ul> 
- 	  	  </div>
-		</div>
-	    </div>
+		<% for (event in resultsTally) {%>
+			<div class="col-lg-4 col-md-6 col-sm-6 card-deck" >
+				<div class="card">
+					<div class="card-body">
+							<h5 class="card-title text-center"><%= event %></h5>
+							<p class="card-text">Looking back <%= daysToLookBack %> days prior to each time you experienced <%= event %>, you have eaten:</p>
+						<h5 class="card-header text-center">Meals</h5>
+							<ul class="list-group list-group-flush">
+								<% for (food in resultsTally[event]["food_count"]) {%>
+									<li class="list-group-item">
+								<%= resultsTally[event]["food_count"][food]%> 
+								<% if (resultsTally[event]["food_count"][food] == 1) { %>
+									meal
+								<% } else { %>
+									meals 
+								<% } %>of <%= food%>. The total number of <%= food%> meals you recorded is <%= foodTotals[food] %>.
+								<br>Therefore <%= food%> resulted in a reaction <%= resultsTally[event]["food_percent"][food] %>% of the time.
+							</li>
+								<% } %>
+						</ul>    
+						<h5 class="card-header text-center">Tags</h5>
+						<ul class="list-group list-group-flush">
+							<% for (tag in resultsTally[event]["tag_count"]) {%>
+							<li class="list-group-item"><%= resultsTally[event]["tag_count"][tag] %> <%= tag %> out of a total <%= tagTotals[tag] %> </li>
+							<% } %>
+						</ul> 
+					</div>
+				</div>
+				</div>
     	<% } %>
 	</div>
 	<div class="table-responsive">
