@@ -269,7 +269,7 @@ router.get('/entry/:entryId', function (req, res) {
                 console.error(err);
             }
             if (String(doc.user) == String(userId)) {
-                res.render('entry', {doc: doc, entryId:entryId, username: req.user.username} );	
+                res.render('entry', {doc: doc, type: 'event', entryId:entryId, username: req.user.username} );	
             }
             else {
 		res.status(403);
@@ -292,7 +292,7 @@ router.get('/food/:foodId', function (req, res) {
                 console.error(err);
               }
             if (String(doc.user) == String(userId)) {
-                res.render('food', {doc:doc, foodId:foodId, username: req.user.username});	
+                res.render('entry', {doc: doc, type:'food', foodId:foodId, username: req.user.username});	
               }
             else {
 		res.status(403);

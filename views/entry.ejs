@@ -9,19 +9,35 @@
 </head>
 <body>
     <main class="centered">
-	<div class="container">
-		<div class="card">
-			<div class="card-body">
-				<span class="card-title">Event: <%= doc.event_type %></span>
-			<br>
-				Date: <%= doc.event_date %>
-			<div>
-				Description: <%= doc.description %>
+		<div class="container">
+			<div class="card">
+				<div class="card-body">
+				<% if (type == 'event') { %>
+					<span class="card-title">Event: <%= doc.event_type %></span>
+				<br>
+					Date: <%= doc.event_date %>
+				<div>
+					Description: <%= doc.description %>
+				</div>
+				<a href="/deleteentry/<%= entryId %>">Delete this entry</a>
+				<% } else if (type == 'food') { %>
+					<span class="card-title">Event: <%= doc.food_name %></span>
+				<br>
+					Date: <%= doc.datetime_eaten %>
+				<div>
+					Description: <%= doc.description %>
+				</div>
+				<div>
+					Tags/Ingredients: <%= doc.tags %>
+				</div>
+				<a href="/deletefood/<%= foodId %>">Delete this food entry</a>
+
+				<% } %>
 			</div>
-			<a href="/deleteentry/<%= entryId %>">Delete this entry</a>
 		</div>
-	</div>
-	<a href="/home">Home</a>
+		<div class="container">
+			<a href="/home">Home</a>
+		</div>
     </main>
 </body>
 </html>
