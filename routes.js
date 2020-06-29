@@ -40,16 +40,11 @@ router.post('/',
             })
             );
 
-// misc 'easter egg' route, to demonstrate res.send
-router.get('/hello', function (req, res) {
-    res.send("<h1>Hello World!</h1>");
-})
-
-
 router.get('/home', function (req, res) {
-// TODO: at first just send the events/food lists of the current month. then send other months only if requested
+    // Check if there is a user loged in, else redirect to login page
     if (req.user) {
         console.log('logged in user _id is' + req.user._id)
+        // retrive all food and event entries from the db, show it as a list in the homepage
         eventCtrl.find( {'user': req.user._id }, function (err, eventlist) {
             if (err) {
                 return console.error(err);
@@ -311,12 +306,12 @@ router.get('/deleteentry/:entryId', function (req, res) {
     if (req.user) {
         var userId = req.user._id;
 	    eventCtrl.deleteOne({'user': userId, _id: objEntryId}, function (err) {
-		if (err) {
-			console.error(err);
-		} else {
-			console.log("Deleted!");
-			res.redirect('/home');
-		}
+            if (err) {
+                console.error(err);
+            } else {
+                console.log("Deleted!");
+                res.redirect('/home');
+            }
 	    });
     }
     else {
@@ -329,12 +324,12 @@ router.get('/deletefood/:foodId', function (req, res) {
     if (req.user) {
         var userId = req.user._id;
 	    foodCtrl.deleteOne({'user': userId, _id: objFoodId}, function (err) {
-		if (err) {
-			console.error(err);
-		} else {
-			console.log("Deleted!");
-			res.redirect('/home');
-		}
+            if (err) {
+                console.error(err);
+            } else {
+                console.log("Deleted!");
+                res.redirect('/home');
+            }
 	    });
     }
     else {
