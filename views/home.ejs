@@ -11,27 +11,8 @@
     <title>Home</title>
 </head>
 <body>
-    <main class="centered flex">
-    <div class="home_left d-none d-lg-block">
-    	<div class="left_events_wrapper">
-            <h2>Your Reactions</h2>
-	    <ul>
-            <% eventlist.forEach(function(event) { %>
-                <li class="align_left"><a href="entry/<%= event._id %>"><%= event.event_date.toDateString() %> - <%= event.event_type %></a></li>
-        <% }); %>
-	    </ul>
-	</div>
-    	<div class="left_foods_wrapper">
-            <h2>Your foodies</h2>
-		<ul>
-            <% foodlist.forEach(function(food) { %>
-                <li class="align_left"><a href="food/<%= food._id %>"><%= food.datetime_eaten.toDateString() %> - <%= food.food_name %> </a></li>
-            <% }); %>
-		</ul>
-	</div>
-    </div>
-    <div class="home_right">
-	<nav class="nav home_navbar">
+    <main class="centered">
+		<nav class="nav home_navbar">
         	<a href="/about" class="nav-link">About</a>
 		<div id="profile_menu" class="nav-link"> 
 			Hello <%= user.username %> <img id="dropdown_gear" src="images/gear-icon.svg">
@@ -40,45 +21,71 @@
 				<a href="/logout" class="nav-link home_dropdown_menu">Logout</a>
 			</div>
 		</div>
-        </nav>
-	<img src="images/express-icon.svg" style="height: 100px;">
-	<div class="calendar_wrapper centered">
-        	<div id="calendar">
-        	</div>
-	</div>
-	<div id="calendarModal" class="modal">
-		<div class="modal_content border border-dark rounded container">
-			<span  id="calendarModalText">
-			</span>
-			<div>
-       		     		<a href="/new_entry" id="modalNewEntry">New entries here</a>
-				<br>
-				<a href="/new_food" id="modalNewFood">New food here</a>
+ 		</nav>
+		<div class="home_main">
+		<img src="images/express-icon.svg" style="height: 100px;">
+		<div class="container calendar_wrapper centered">
+				<div id="calendar">
+				</div>
+		</div>
+		<div id="calendarModal" class="modal">
+			<div class="modal_content border border-dark rounded container">
+				<span  id="calendarModalText">
+				</span>
+				<div>
+							<a href="/new_entry" id="modalNewEntry">New entries here</a>
+					<br>
+					<a href="/new_food" id="modalNewFood">New food here</a>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div id="calendarEventModal" class="modal">
-		<div class="modal_content border border-dark rounded container">
-			<span  id="calendarEventModalText">
-			</span>
-			<div>
-       		    <a href="" id="modalEventLink">Link to entry here</a>
+		<div id="calendarEventModal" class="modal">
+			<div class="modal_content border border-dark rounded container">
+				<span  id="calendarEventModalText">
+				</span>
+				<div>
+					<a href="" id="modalEventLink">Link to entry here</a>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="container">
-		<a href="/analysis" class="btn btn-primary btn-lg  btn-block">Analysis</a>
-        	<a href="/new_entry" class="btn btn-primary btn-lg btn-block">New entries here</a>
-		<a href="/new_food" class="btn btn-primary btn-lg btn-block"> New food here</a>
-	</div>
-	<div id="homeEventJSONStr">
-		<%= eventsJSONStr %>
-	</div>
-    </diV>
+		<div class="modal">
+			<div class="left_events_wrapper">
+				<h2>Your Reactions</h2>
+			<ul>
+				<% eventlist.forEach(function(event) { %>
+					<li class="align_left"><a href="entry/<%= event._id %>"><%= event.event_date.toDateString() %> - <%= event.event_type %></a></li>
+			<% }); %>
+			</ul>
+			</div>
+			<div class="left_foods_wrapper">
+				<h2>Your foodies</h2>
+			<ul>
+				<% foodlist.forEach(function(food) { %>
+					<li class="align_left"><a href="food/<%= food._id %>"><%= food.datetime_eaten.toDateString() %> - <%= food.food_name %> </a></li>
+				<% }); %>
+			</ul>
+			</div>
+		</div>
+		<div class="container mt-3 bottom_link_wrapper">
+			<a href="/analysis" class="btn btn-primary btn-lg  btn-block">Analysis</a>
+			<a href="/new_entry" class="btn btn-primary btn-lg btn-block">New entries here</a>
+			<a href="/new_food" class="btn btn-primary btn-lg btn-block"> New food here</a>
+			<div class="btn btn-primary btn-lg btn-block">See all old entries here</div>
+		</div>
+		<div id="homeEventJSONStr">
+			<%= eventsJSONStr %>
+		</div>
+		</diV>
     </main>
 	<footer class="centered">
 		FoodSense 2020. Check out <a href="https://lucasdpau.github.io">my portfolio.</a>
 	</footer>
+	<!-- Load React. -->
+	<!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+	<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+	<!-- Load a React component. -->
+	<script src=""></script>
 </body>
 <script src="home.js"></script>
 </html>

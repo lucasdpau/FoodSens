@@ -98,6 +98,8 @@ footer {
 
 .home_navbar {
 	justify-content: flex-end;
+	max-width: 670px;
+	margin: 0 auto;
 }
 
 .home_dropdown_menu:hover {
@@ -113,7 +115,7 @@ footer {
   }
 }
 
-.home_right {
+.home_main {
 	max-width: 700px;
 	margin: 0 auto;
 }
