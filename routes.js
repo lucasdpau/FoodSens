@@ -112,15 +112,15 @@ router.get('/getfoods', function (req, res) {
 	    foodJSON = [];
 	    foodlist.forEach(function(item) {
 	    // dates in DB are saved as utc, so fullcalendar will adjust is and the event will be on the wrong date
-		var formatted_date = new Date(item.datetime_eaten);
-		formatted_date.setDate(formatted_date.getUTCDate());
-		new_food_item = {};
-		new_food_item['allDay'] = true;
-		new_food_item['title'] = item.food_name[0].toUpperCase() + item.food_name.slice(1);
-		new_food_item['id'] = item._id;
-		new_food_item['end'] = formatted_date;
-		new_food_item['start'] = formatted_date;
-		foodJSON.push(new_food_item);
+            var formatted_date = new Date(item.datetime_eaten);
+            console.log(formatted_date);
+            new_food_item = {};
+            new_food_item['allDay'] = true;
+            new_food_item['title'] = item.food_name[0].toUpperCase() + item.food_name.slice(1);
+            new_food_item['id'] = item._id;
+            new_food_item['end'] = formatted_date;
+            new_food_item['start'] = formatted_date;
+            foodJSON.push(new_food_item);
 	    });
 	    res_json = JSON.parse(JSON.stringify(foodJSON));
             res.send(res_json);

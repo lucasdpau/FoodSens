@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var calendar = new Calendar(calendarEl, {
     plugins: [ dayGridPlugin, interactionPlugin ],
-
+    timeZone: 'UTC',
+ 
     eventSources: [
       {
         url:'/getevents',
