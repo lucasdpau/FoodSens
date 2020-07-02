@@ -1,7 +1,7 @@
 {
   "name": "node-express-practice",
   "version": "1.0.0",
-  "description": "",
+  "description": "FoodSens lets you correlate your meals and any allergies, reactions or flare-ups that you experience.",
   "main": "server-exp.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
     "start": "node ./bin/www"
   },
   "engines": {
-  "node": "12.17.0"
+    "node": "12.17.0"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +17,8 @@
     "@fullcalendar/core": "^4.4.0",
     "@fullcalendar/daygrid": "^4.4.0",
     "@fullcalendar/interaction": "^4.4.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
     "bcryptjs": "^2.4.3",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
@@ -31,5 +33,14 @@
     "nodemon": "^2.0.3",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucasdpau/node-express-practice.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/lucasdpau/node-express-practice/issues"
+  },
+  "homepage": "https://github.com/lucasdpau/node-express-practice#readme"
 }

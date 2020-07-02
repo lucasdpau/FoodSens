@@ -23,6 +23,7 @@
 		</div>
  		</nav>
 		<div class="home_main">
+			<div id="welcome"></div>
 		<img src="images/express-icon.svg" style="height: 100px;">
 		<div class="container calendar_wrapper centered">
 				<div id="calendar">
@@ -33,9 +34,12 @@
 				<span  id="calendarModalText">
 				</span>
 				<div>
-							<a href="/new_entry" id="modalNewEntry">New entries here</a>
+					<a href="/new_entry" id="modalNewEntry">New entries here</a>
 					<br>
 					<a href="/new_food" id="modalNewFood">New food here</a>
+				</div>
+				<div class="btn btn-primary btn-lg btn-block modalClose" id="modalClose">
+					Close
 				</div>
 			</div>
 		</div>
@@ -45,6 +49,9 @@
 				</span>
 				<div>
 					<a href="" id="modalEventLink">Link to entry here</a>
+				</div>
+				<div class="btn btn-primary btn-lg btn-block modalClose" id="modalClose2">
+					Close
 				</div>
 			</div>
 		</div>
@@ -76,16 +83,20 @@
 			<%= eventsJSONStr %>
 		</div>
 		</diV>
-    </main>
+	</main>
+	<div id="test"></div>
 	<footer class="centered">
 		FoodSense 2020. Check out <a href="https://lucasdpau.github.io">my portfolio.</a>
 	</footer>
+	<!-- load the calendar first-->
+	<script src="home.js"></script>
 	<!-- Load React. -->
 	<!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+	<!-- also when deploying if still using jsx, https://reactjs.org/docs/add-react-to-a-website.html go here to see what else to do-->
+	<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 	<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
 	<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
 	<!-- Load a React component. -->
-	<script src=""></script>
+	<script type="text/babel" src="homereact.js"></script>
 </body>
-<script src="home.js"></script>
 </html>

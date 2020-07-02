@@ -406,7 +406,7 @@ router.get('/analysis', function (req, res) {
             });
             for (event in resultsTally) {
                 if (Object.keys(resultsTally[event]["food_count"]).length == 0 ) {
-                    delete resultsTally[event]
+                    //delete resultsTally[event]
                 }
             }
             console.log('results list: ');
@@ -434,7 +434,7 @@ const gatherRelatedFood = function (eventObj, foodDoc, daysToLookBack) {
 // to reduce DB calls, we just get the entire foodQuerySet once, and filter with daysToLookBack
     var earliestDay = new Date;
 // we add 1 to daystolookback for rounding error
-    earliestDay.setDate(eventObj.event_date.getDate() - (daysToLookBack + 1));
+    earliestDay.setTime(eventObj.event_date.getTime() - (daysToLookBack * 24 * 60 * 60 * 1000));
     foodDoc.forEach(function(doc) {
         if (doc["datetime_eaten"] <= eventObj.event_date && doc["datetime_eaten"] >= earliestDay) {
             console.log(doc);

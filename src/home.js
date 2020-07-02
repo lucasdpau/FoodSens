@@ -75,11 +75,12 @@ window.onclick = function(event) {
   }
 }
 
-
-modalNewEntry.addEventListener('click', function() {
-  modalText.innerHTML = "<h4>peekaboo</h4>";
+document.getElementById("modalClose").addEventListener("click", function(){
+  modalEventBackground.style.display = "none";
+  document.getElementById("calendarModal").style.display = "none";
 });
 
-modalNewFood.addEventListener('click', function() {
-  modalText.innerHTML = "<h4>peekafood</h4>";
+document.getElementById("modalClose2").addEventListener("click", function(){
+  modalEventBackground.style.display = "none";
+  document.getElementById("calendarModal").style.display = "none";
 });
