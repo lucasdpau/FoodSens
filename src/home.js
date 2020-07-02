@@ -85,3 +85,11 @@ document.getElementById("modalClose2").addEventListener("click", function(){
   modalEventBackground.style.display = "none";
   document.getElementById("calendarModal").style.display = "none";
 });
+
+document.getElementById("eventListToggle").addEventListener("click", function(){
+  if (document.getElementById("eventList").classList.contains("hidden")) {
+    document.getElementById("eventList").classList.remove('hidden');
+  } else {
+    document.getElementById("eventList").classList.add("hidden");
+  }
+});

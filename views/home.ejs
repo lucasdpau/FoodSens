@@ -55,7 +55,13 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal">
+		<div class="container mt-3 bottom_link_wrapper">
+			<a href="/analysis" class="btn btn-primary btn-lg  btn-block">Analysis</a>
+			<a href="/new_entry" class="btn btn-primary btn-lg btn-block">New entries here</a>
+			<a href="/new_food" class="btn btn-primary btn-lg btn-block"> New food here</a>
+			<div class="btn btn-primary btn-lg btn-block" id="eventListToggle">See all old entries here</div>
+		</div>
+		<div class="hidden" id="eventList">
 			<div class="left_events_wrapper">
 				<h2>Your Reactions</h2>
 			<ul>
@@ -72,12 +78,6 @@
 				<% }); %>
 			</ul>
 			</div>
-		</div>
-		<div class="container mt-3 bottom_link_wrapper">
-			<a href="/analysis" class="btn btn-primary btn-lg  btn-block">Analysis</a>
-			<a href="/new_entry" class="btn btn-primary btn-lg btn-block">New entries here</a>
-			<a href="/new_food" class="btn btn-primary btn-lg btn-block"> New food here</a>
-			<div class="btn btn-primary btn-lg btn-block">See all old entries here</div>
 		</div>
 		<div id="homeEventJSONStr">
 			<%= eventsJSONStr %>
